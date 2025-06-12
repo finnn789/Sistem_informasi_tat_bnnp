@@ -15,6 +15,7 @@ class LaporanTAT extends Model
         'user_id',
         'surat_permohonan_tat',
         'surat_perintah_penangkapan',
+        'nomor_surat_permohonan_tat',
         'kronologis',
         'data_tersangka_id',
         'laporan_polisi',

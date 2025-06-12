@@ -136,9 +136,13 @@
                                 <i class="fas fa-cog mr-2"></i> Pengaturan
                             </a>
                             <div class="border-t border-gray-100"></div>
-                            <a href="#" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
-                                <i class="fas fa-sign-out-alt mr-2"></i> Keluar
-                            </a>
+                            <form action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-gray-100">
+                                    <i class="fas fa-sign-out-alt mr-2"></i> Keluar
+                                </button>
+                            </form>
+
                         </div>
                     </div>
                 </div>
@@ -170,7 +174,7 @@
                 <li>
                     <a href="#" class="sidebar-item flex items-center px-4 py-3 rounded-lg text-gray-700">
                         <i class="fas fa-file-alt w-5 mr-3"></i>
-                        <span>Laporan TAT</span>
+                        <span>Buat Laporan</span>
                     </a>
                 </li>
                 <li>
@@ -242,12 +246,7 @@
 </div> --}}
 
 
-        <div class="px-4 py-4 border-t border-gray-200 mt-6">
-            <a href="#" class="flex items-center text-red-600 hover:text-red-800">
-                <i class="fas fa-sign-out-alt mr-3"></i>
-                <span>Keluar</span>
-            </a>
-        </div>
+        
     </div>
 
     <!-- Main Content -->
@@ -308,7 +307,7 @@
                         <div class="flex justify-between items-center">
                             <div>
                                 <p class="text-sm opacity-80">Ditolak</p>
-                                <h3 class="text-2xl font-bold">{{ $totalDitolak}}</h3>
+                                <h3 class="text-2xl font-bold">{{ $totalDitolak }}</h3>
                             </div>
                             <div class="bg-white bg-opacity-30 p-3 rounded-full">
                                 <i class="fas fa-times-circle"></i>
