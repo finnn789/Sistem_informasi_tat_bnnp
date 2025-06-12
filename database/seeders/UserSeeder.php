@@ -17,6 +17,6 @@ class UserSeeder extends Seeder
 
         // Atau jika ingin membuat user dengan role tertentu
         User::factory()->operator()->count(5)->create(); // Membuat 5 user dengan role 'operator'
-        User::factory()->adminBnn()->count(2)->create();
+        User::factory()->admin()->count(2)->create();
     }
 }
