@@ -1,286 +1,318 @@
-<html lang="id">
+{{-- resources/views/laporan-tat/create.blade.php --}}
+@extends('layouts.form')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Laporan TAT</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap"
-        rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f9fafb;
-        }
-
-        .file-input-container {
-            position: relative;
-            margin-top: 0.5rem;
-        }
-
-        .file-input-container:hover .file-input-label {
-            border-color: #6366f1;
-        }
-
-        .file-input-label {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            border: 2px dashed #e5e7eb;
-            border-radius: 0.5rem;
-            padding: 1.5rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .file-input {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            cursor: pointer;
-        }
-
-        .file-name {
-            margin-top: 0.5rem;
-            font-size: 0.875rem;
-            color: #4b5563;
-            word-break: break-all;
-        }
-    </style>
-    
-</head>
-
-<body>
-    <div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-3xl mx-auto">
-            <div class="bg-white shadow-sm rounded-lg overflow-hidden">
-                <div class="px-6 py-5 border-b border-gray-200">
-                    <h1 class="text-xl font-semibold text-gray-900">Form Laporan TAT</h1>
-                    <p class="mt-1 text-sm text-gray-500">Silakan lengkapi formulir berikut</p>
+@section('content')
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Form Laporan TAT (Tes Alkohol dan Narkoba)</h4>
                 </div>
-
-                <form action="" method="POST" enctype="multipart/form-data" class="px-6 py-5 space-y-6">
-                    @csrf
-
-                    <!-- Surat Permohonan TAT -->
-                    <div>
-                        <label for="surat_permohonan_tat" class="block text-sm font-medium text-gray-700">
-                            Surat Permohonan TAT
-                        </label>
-                        <div class="file-input-container">
-                            <label for="surat_permohonan_tat" class="file-input-label">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-400" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
-                                    </path>
-                                </svg>
-                                <span class="mt-2 text-sm text-gray-500">Klik untuk upload atau seret file ke
-                                    sini</span>
-                                <span class="mt-1 text-xs text-gray-400">SVG, PNG, JPG, atau GIF (Maks.
-                                    800x400px)</span>
-                                <input type="file" name="surat_permohonan_tat" id="surat_permohonan_tat"
-                                    class="file-input" accept=".svg,.png,.jpg,.jpeg,.gif"
-                                    aria-describedby="surat_permohonan_tat_help">
-                            </label>
-                            <div class="file-name" id="surat_permohonan_tat_name"></div>
+                <div class="card-body">
+                    <form action={{ route('operator.laporan.store') }} method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
+                        
+                        {{-- Data Tersangka Section --}}
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h5 class="text-primary border-bottom pb-2">Data Tersangka</h5>
+                            </div>
                         </div>
-                        <p class="mt-1 text-sm text-gray-500" id="surat_permohonan_tat_help">
-                            File yang diunggah akan digunakan sebagai dokumen pendukung laporan.
-                        </p>
-                    </div>
 
-                    <!-- Surat Perintah Penangkapan -->
-                    <div>
-                        <label for="surat_perintah_penangkapan" class="block text-sm font-medium text-gray-700">
-                            Surat Perintah Penangkapan
-                        </label>
-                        <div class="file-input-container">
-                            <label for="surat_perintah_penangkapan" class="file-input-label">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-400" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
-                                    </path>
-                                </svg>
-                                <span class="mt-2 text-sm text-gray-500">Klik untuk upload atau seret file ke
-                                    sini</span>
-                                <span class="mt-1 text-xs text-gray-400">SVG, PNG, JPG, atau GIF (Maks.
-                                    800x400px)</span>
-                                <input type="file" name="surat_perintah_penangkapan" id="surat_perintah_penangkapan"
-                                    class="file-input" accept=".svg,.png,.jpg,.jpeg,.gif"
-                                    aria-describedby="surat_perintah_penangkapan_help">
-                            </label>
-                            <div class="file-name" id="surat_perintah_penangkapan_name"></div>
+                        {{-- <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="tersangka_nama" class="form-label">Nama Tersangka <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control @error('tersangka_nama') is-invalid @enderror" 
+                                       id="tersangka_nama" name="tersangka_nama" value="{{ old('tersangka_nama') }}" required>
+                                @error('tersangka_nama')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col-md-6">
+                                <label for="tersangka_no_ktp" class="form-label">No. KTP <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control @error('tersangka_no_ktp') is-invalid @enderror" 
+                                       id="tersangka_no_ktp" name="tersangka_no_ktp" value="{{ old('tersangka_no_ktp') }}" required>
+                                @error('tersangka_no_ktp')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
                         </div>
-                        <p class="mt-1 text-sm text-gray-500" id="surat_perintah_penangkapan_help">
-                            File yang diunggah akan digunakan sebagai dokumen pendukung laporan.
-                        </p>
-                    </div>
 
-                    <!-- Kronologis -->
-                    <div>
-                        <label for="kronologis" class="block text-sm font-medium text-gray-700">
-                            Kronologis Kejadian
-                        </label>
-                        <textarea id="kronologis" name="kronologis" rows="4"
-                            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                            placeholder="Tuliskan kronologis kejadian secara detail..."></textarea>
-                    </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="tersangka_jenis_kelamin" class="form-label">Jenis Kelamin <span class="text-danger">*</span></label>
+                                <select class="form-select @error('tersangka_jenis_kelamin') is-invalid @enderror" 
+                                        id="tersangka_jenis_kelamin" name="tersangka_jenis_kelamin" required>
+                                    <option value="">Pilih Jenis Kelamin</option>
+                                    <option value="L" {{ old('tersangka_jenis_kelamin') == 'L' ? 'selected' : '' }}>Laki-laki</option>
+                                    <option value="P" {{ old('tersangka_jenis_kelamin') == 'P' ? 'selected' : '' }}>Perempuan</option>
+                                </select>
+                                @error('tersangka_jenis_kelamin')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col-md-6">
+                                <label for="tersangka_tanggal_lahir" class="form-label">Tanggal Lahir <span class="text-danger">*</span></label>
+                                <input type="date" class="form-control @error('tersangka_tanggal_lahir') is-invalid @enderror" 
+                                       id="tersangka_tanggal_lahir" name="tersangka_tanggal_lahir" value="{{ old('tersangka_tanggal_lahir') }}" required>
+                                @error('tersangka_tanggal_lahir')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div> --}}
 
-                    <!-- Data Tersangka -->
-                    <div>
-                        <label for="data_tersangka_id" class="block text-sm font-medium text-gray-700">
-                            Data Tersangka
-                        </label>
-                        <select id="data_tersangka_id" name="data_tersangka_id"
-                            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                            <option value="">-- Pilih Tersangka --</option>
-                            <option value="1">Tersangka 001</option>
-                            <option value="2">Tersangka 002</option>
-                            <option value="3">Tersangka 003</option>
-                        </select>
-                    </div>
-
-                    <!-- Laporan Polisi -->
-                    <div>
-                        <label for="laporan_polisi" class="block text-sm font-medium text-gray-700">
-                            Laporan Polisi
-                        </label>
-                        <div class="file-input-container">
-                            <label for="laporan_polisi" class="file-input-label">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-400" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
-                                    </path>
-                                </svg>
-                                <span class="mt-2 text-sm text-gray-500">Klik untuk upload atau seret file ke
-                                    sini</span>
-                                <span class="mt-1 text-xs text-gray-400">SVG, PNG, JPG, atau GIF (Maks.
-                                    800x400px)</span>
-                                <input type="file" name="laporan_polisi" id="laporan_polisi" class="file-input"
-                                    accept=".svg,.png,.jpg,.jpeg,.gif" aria-describedby="laporan_polisi_help">
-                            </label>
-                            <div class="file-name" id="laporan_polisi_name"></div>
+                      <div id="tersangka-fields">
+                            <div class="tersangka-field mb-3" id="tersangka-1">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="tersangka_nama_1" class="form-label">Nama Tersangka 1 <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control @error('tersangka.*.nama') is-invalid @enderror" 
+                                               name="tersangka[0][nama]" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="tersangka_peran_1" class="form-label">Peran Tersangka 1 <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control @error('tersangka.*.peran') is-invalid @enderror" 
+                                               name="tersangka[0][peran]" required>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-danger btn-sm mt-2 remove-tersangka">
+                                    <i class="fas fa-trash"></i> Hapus
+                                </button>
+                            </div>
                         </div>
-                        <p class="mt-1 text-sm text-gray-500" id="laporan_polisi_help">
-                            File yang diunggah akan digunakan sebagai dokumen pendukung laporan.
-                        </p>
-                    </div>
 
-                    <!-- Status -->
-                    <div>
-                        <label for="status" class="block text-sm font-medium text-gray-700">
-                            Status
-                        </label>
-                        <select id="status" name="status"
-                            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                            <option value="draft">Draft</option>
-                            <option value="diajukan">Diajukan</option>
-                            <option value="diproses">Diproses</option>
-                            <option value="selesai">Selesai</option>
-                            <option value="ditolak">Ditolak</option>
-                        </select>
-                    </div>
-
-                    <!-- Tombol Submit -->
-                    <div class="pt-5 border-t border-gray-200">
-                        <div class="flex justify-end">
-                            <button type="button"
-                                class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                Batal
-                            </button>
-                            <button type="submit"
-                                class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                Simpan
+                        <!-- Button Add Tersangka -->
+                        <div class="text-end mb-4">
+                            <button type="button" id="add-tersangka" class="btn btn-success">
+                                <i class="fas fa-plus"></i> Tambah Tersangka
                             </button>
                         </div>
-                    </div>
-                </form>
+
+
+                        <div class="row mb-3">
+                            <div class="col-md-8">
+                                <label for="tersangka_alamat" class="form-label">Alamat <span class="text-danger">*</span></label>
+                                <textarea class="form-control @error('tersangka_alamat') is-invalid @enderror" 
+                                          id="tersangka_alamat" name="tersangka_alamat" rows="3" required>{{ old('tersangka_alamat') }}</textarea>
+                                @error('tersangka_alamat')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col-md-4">
+                                <label for="tersangka_foto_ktp" class="form-label">Foto KTP</label>
+                                <input type="file" class="form-control @error('tersangka_foto_ktp') is-invalid @enderror" 
+                                       id="tersangka_foto_ktp" name="tersangka_foto_ktp" accept="image/*">
+                                <small class="form-text text-muted">Format: JPG, PNG, GIF. Max: 2MB</small>
+                                @error('tersangka_foto_ktp')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        {{-- Laporan TAT Section --}}
+                        <div class="row mb-4 mt-5">
+                            <div class="col-12">
+                                <h5 class="text-primary border-bottom pb-2">Data Laporan TAT</h5>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <label for="kronologis" class="form-label">Kronologis <span class="text-danger">*</span></label>
+                                <textarea class="form-control @error('kronologis') is-invalid @enderror" 
+                                          id="kronologis" name="kronologis" rows="4" required 
+                                          placeholder="Jelaskan kronologis kejadian secara detail">{{ old('kronologis') }}</textarea>
+                                @error('kronologis')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        {{-- Document Upload Section --}}
+                        <div class="row mb-4 mt-4">
+                            <div class="col-12">
+                                <h6 class="text-secondary border-bottom pb-2">Dokumen Pendukung</h6>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="surat_permohonan_tat" class="form-label">Surat Permohonan TAT <span class="text-danger">*</span></label>
+                                <input type="file" class="form-control @error('surat_permohonan_tat') is-invalid @enderror" 
+                                       id="surat_permohonan_tat" name="surat_permohonan_tat" accept=".pdf,.doc,.docx" required>
+                                @error('surat_permohonan_tat')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col-md-6">
+                                <label for="surat_perintah_penangkapan" class="form-label">Surat Perintah Penangkapan</label>
+                                <input type="file" class="form-control @error('surat_perintah_penangkapan') is-invalid @enderror" 
+                                       id="surat_perintah_penangkapan" name="surat_perintah_penangkapan" accept=".pdf,.doc,.docx">
+                                @error('surat_perintah_penangkapan')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="laporan_polisi" class="form-label">Laporan Polisi</label>
+                                <input type="file" class="form-control @error('laporan_polisi') is-invalid @enderror" 
+                                       id="laporan_polisi" name="laporan_polisi" accept=".pdf,.doc,.docx">
+                                @error('laporan_polisi')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col-md-6">
+                                <label for="surat_perintah_penyidikan" class="form-label">Surat Perintah Penyidikan</label>
+                                <input type="file" class="form-control @error('surat_perintah_penyidikan') is-invalid @enderror" 
+                                       id="surat_perintah_penyidikan" name="surat_perintah_penyidikan" accept=".pdf,.doc,.docx">
+                                @error('surat_perintah_penyidikan')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="surat_uji_laboratorium" class="form-label">Surat Uji Laboratorium</label>
+                                <input type="file" class="form-control @error('surat_uji_laboratorium') is-invalid @enderror" 
+                                       id="surat_uji_laboratorium" name="surat_uji_laboratorium" accept=".pdf,.doc,.docx">
+                                @error('surat_uji_laboratorium')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col-md-6">
+                                <label for="berita_acara_pemeriksaan_tersangka" class="form-label">Berita Acara Pemeriksaan Tersangka</label>
+                                <input type="file" class="form-control @error('berita_acara_pemeriksaan_tersangka') is-invalid @enderror" 
+                                       id="berita_acara_pemeriksaan_tersangka" name="berita_acara_pemeriksaan_tersangka" accept=".pdf,.doc,.docx">
+                                @error('berita_acara_pemeriksaan_tersangka')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="surat_persetujuan_tat" class="form-label">Surat Persetujuan TAT</label>
+                                <input type="file" class="form-control @error('surat_persetujuan_tat') is-invalid @enderror" 
+                                       id="surat_persetujuan_tat" name="surat_persetujuan_tat" accept=".pdf,.doc,.docx">
+                                @error('surat_persetujuan_tat')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col-md-6">
+                                <label for="surat_pernyataan_penyidik" class="form-label">Surat Pernyataan Penyidik</label>
+                                <input type="file" class="form-control @error('surat_pernyataan_penyidik') is-invalid @enderror" 
+                                       id="surat_pernyataan_penyidik" name="surat_pernyataan_penyidik" accept=".pdf,.doc,.docx">
+                                @error('surat_pernyataan_penyidik')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="tanggal_pelaksanaan" class="form-label">Tanggal Pelaksanaan</label>
+                                <input type="date" class="form-control @error('tanggal_pelaksanaan') is-invalid @enderror" 
+                                       id="tanggal_pelaksanaan" name="tanggal_pelaksanaan" value="{{ old('tanggal_pelaksanaan') }}">
+                                @error('tanggal_pelaksanaan')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col-md-6">
+                                <label for="file_surat_penerimaan" class="form-label">File Surat Penerimaan</label>
+                                <input type="file" class="form-control @error('file_surat_penerimaan') is-invalid @enderror" 
+                                       id="file_surat_penerimaan" name="file_surat_penerimaan" accept=".pdf,.doc,.docx">
+                                @error('file_surat_penerimaan')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        {{-- Submit Buttons --}}
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <hr>
+                                <div class="d-flex justify-content-between">
+                                    <a href="#" class="btn btn-secondary">
+                                        <i class="fas fa-arrow-left"></i> Kembali
+                                    </a>
+                                    <div>
+                                        <button type="reset" class="btn btn-warning me-2">
+                                            <i class="fas fa-undo"></i> Reset
+                                        </button>
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-save"></i> Simpan Laporan
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
+</div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Handle file inputs to show file name
-            const fileInputs = document.querySelectorAll('.file-input');
-            fileInputs.forEach(input => {
-                input.addEventListener('change', function(e) {
-                    const fileName = e.target.files[0]?.name || '';
-                    const fileNameElement = document.getElementById(`${input.id}_name`);
-                    if (fileNameElement) {
-                        if (fileName) {
-                            fileNameElement.innerHTML = `
-                                <div class="flex items-center mt-2 text-sm text-indigo-600">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                    </svg>
-                                    <span>${fileName}</span>
-                                </div>
-                            `;
-
-                            // Change label style when file is selected
-                            const label = input.closest('.file-input-label');
-                            if (label) {
-                                label.style.borderColor = '#8b5cf6';
-                                label.style.backgroundColor = '#f5f3ff';
-                            }
-                        } else {
-                            fileNameElement.textContent = '';
-
-                            // Reset label style
-                            const label = input.closest('.file-input-label');
-                            if (label) {
-                                label.style.borderColor = '#e5e7eb';
-                                label.style.backgroundColor = '';
-                            }
-                        }
-                    }
-                });
-            });
+{{-- JavaScript untuk validasi dan enhancement --}}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // File size validation
+    const fileInputs = document.querySelectorAll('input[type="file"]');
+    fileInputs.forEach(input => {
+        input.addEventListener('change', function() {
+            const maxSize = 2 * 1024 * 1024; // 2MB
+            if (this.files[0] && this.files[0].size > maxSize) {
+                alert('Ukuran file terlalu besar. Maksimal 2MB.');
+                this.value = '';
+            }
         });
-    </script>
-    <script>
-        (function() {
-            function c() {
-                var b = a.contentDocument || a.contentWindow.document;
-                if (b) {
-                    var d = b.createElement('script');
-                    d.innerHTML =
-                        "window.__CF$cv$params={r:'94c7d50857efff86',t:'MTc0OTM3OTg2Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
-                    b.getElementsByTagName('head')[0].appendChild(d)
-                }
-            }
-            if (document.body) {
-                var a = document.createElement('iframe');
-                a.height = 1;
-                a.width = 1;
-                a.style.position = 'absolute';
-                a.style.top = 0;
-                a.style.left = 0;
-                a.style.border = 'none';
-                a.style.visibility = 'hidden';
-                document.body.appendChild(a);
-                if ('loading' !== document.readyState) c();
-                else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c);
-                else {
-                    var e = document.onreadystatechange || function() {};
-                    document.onreadystatechange = function(b) {
-                        e(b);
-                        'loading' !== document.readyState && (document.onreadystatechange = e, c())
-                    }
-                }
-            }
-        })();
-    </script>
+    });
 
-</body>
+    // KTP number validation (16 digits)
+    const ktpInput = document.getElementById('tersangka_no_ktp');
+    ktpInput.addEventListener('input', function() {
+        this.value = this.value.replace(/\D/g, '').substring(0, 16);
+    });
 
-</html>
+    // Form confirmation before submit
+    const form = document.querySelector('form');
+    form.addEventListener('submit', function(e) {
+        if (!confirm('Apakah Anda yakin ingin menyimpan laporan ini?')) {
+            e.preventDefault();
+        }
+    });
+});
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    let tersangkaCount = 1;  // Initial count of tersangka fields
+
+    // Function to add new tersangka field
+    document.getElementById('add-tersangka').addEventListener('click', function() {
+        tersangkaCount++;
+
+        const tersangkaField = document.createElement('div');
+        tersangkaField.classList.add('tersangka-field', 'mb-3');
+        tersangkaField.innerHTML = `
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="tersangka_nama_${tersangkaCount}" class="form-label">Nama Tersangka ${tersangkaCount} <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" name="tersangka[${tersangkaCount - 1}][nama]" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="tersangka_peran_${tersangkaCount}" class="form-label">Peran Tersangka ${tersangkaCount} <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" name="tersangka[${tersangkaCount - 1}][peran]" required>
+                </div>
+            </div>
+        `;
+        
+        document.getElementById('tersangka-fields').appendChild(tersangkaField);
+    });
+});
+</script>
+@endsection
