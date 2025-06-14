@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class LaporanTAT extends Model
 {
     use HasFactory;
-    
+
     protected $table = 'laporan_tat';
 
     protected $fillable = [
@@ -17,7 +17,6 @@ class LaporanTAT extends Model
         'surat_perintah_penangkapan',
         'nomor_surat_permohonan_tat',
         'kronologis',
-        'data_tersangka_id',
         'laporan_polisi',
         'surat_perintah_penyidikan',
         'surat_uji_laboratorium',
@@ -37,6 +36,7 @@ class LaporanTAT extends Model
 
     public function tersangka()
     {
-        return $this->belongsTo(Tersangka::class, 'data_tersangka_id');
+         return $this->belongsToMany(Tersangka::class, 'laporan_tersangka', 'laporan_tat_id', 'tersangka_id')
+                    ->withTimestamps();
     }
 }

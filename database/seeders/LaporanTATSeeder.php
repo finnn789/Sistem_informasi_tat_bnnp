@@ -11,37 +11,55 @@ use App\Models\User;
 
 class LaporanTATSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     */
     public function run()
     {
+        // Hapus data lama
+        LaporanTAT::truncate();
 
-        $user = User::factory()->create();
-        $tersangka = Tersangka::factory()->create();
-        // Inisialisasi Faker untuk generate data dummy
-        $faker = Faker::create();
+        $user = User::first() ?? User::create([
+            'name' => 'Admin Polres',
+            'email' => 'admin@polres.go.id',
+            'password' => bcrypt('password123'),
+            'email_verified_at' => now(),
+        ]);
 
-        // Menggunakan factory atau cara manual untuk membuat dummy data
-        for ($i = 0; $i < 20; $i++) {
-            LaporanTAT::create([
-                'user_id' => 2, // Menggunakan user_id 1, pastikan user dengan ID ini ada di database
-                'surat_permohonan_tat' => $faker->word . '.pdf', // Nama file dummy
-                'surat_perintah_penangkapan' => $faker->word . '.pdf',
-                'kronologis' => $faker->paragraph,
-                'data_tersangka_id' => $tersangka->id, // Gunakan ID yang sesuai dari tabel tersangka
-                'laporan_polisi' => $faker->word . '.pdf',
-                'surat_perintah_penyidikan' => $faker->unique()->word,
-                'surat_uji_laboratorium' => $faker->word . '.pdf',
-                'berita_acara_pemeriksaan_tersangka' => $faker->word . '.pdf',
-                'surat_persetujuan_tat' => $faker->word . '.pdf',
-                'surat_pernyataan_penyidik' => $faker->word . '.pdf',
-                'status' => $faker->randomElement(['menunggu', 'diterima', 'ditolak']),
-                'alasan_penolakan' => $faker->optional()->sentence,
-                'tanggal_pelaksanaan' => $faker->optional()->dateTimeThisYear,
-                'file_surat_penerimaan' => $faker->optional()->word . '.pdf',
-            ]);
+        $tersangkaList = Tersangka::all();
+        
+        if ($tersangkaList->isEmpty()) {
+            echo "Warning: No tersangka records found. Make sure TersangkaSeeder has been run first.\n";
+            return;
         }
+        
+        $faker = Faker::create('id_ID');
+
+        // Generate 10 laporan dengan data random tapi unique
+        for ($i = 1; $i <= 10; $i++) {
+            $laporan = LaporanTAT::create([
+                'user_id' => $user->id,
+                'surat_permohonan_tat' => $faker->unique()->bothify('SP-TAT-###-????') . '.pdf',
+                'surat_perintah_penangkapan' => $faker->unique()->bothify('SPP-###-????') . '.pdf',
+                'nomor_surat_permohonan_tat' => $faker->unique()->bothify('TAT/###/????'),
+                'kronologis' => $faker->paragraph(3),
+                'laporan_polisi' => $faker->unique()->bothify('LP-###-????') . '.pdf',
+                'surat_perintah_penyidikan' => $faker->unique()->bothify('SPRIN-###-????'), // Unique dengan faker
+                'surat_uji_laboratorium' => $faker->unique()->bothify('LAB-###-????') . '.pdf',
+                'berita_acara_pemeriksaan_tersangka' => $faker->unique()->bothify('BAP-###-????') . '.pdf',
+                'surat_persetujuan_tat' => $faker->unique()->bothify('SETUJU-TAT-###-????') . '.pdf',
+                'surat_pernyataan_penyidik' => $faker->unique()->bothify('SP-SIDIK-###-????') . '.pdf',
+                'status' => $faker->randomElement(['menunggu', 'diterima', 'ditolak']),
+                'alasan_penolakan' => $faker->optional(0.3)->sentence(),
+                'tanggal_pelaksanaan' => $faker->optional(0.6)->dateTimeBetween('now', '+1 month'),
+                'file_surat_penerimaan' => $faker->optional(0.6)->bothify('surat_penerimaan_###') . '.pdf',
+            ]);
+
+            // Attach 1-3 tersangka secara random
+            $jumlahTersangka = $faker->numberBetween(1, min(3, $tersangkaList->count()));
+            $selectedTersangka = $tersangkaList->random($jumlahTersangka);
+            $laporan->tersangka()->attach($selectedTersangka->pluck('id')->toArray());
+
+            echo "✓ Laporan {$laporan->nomor_surat_permohonan_tat} - Status: {$laporan->status}\n";
+        }
+
+        echo "\nSeeder LaporanTAT berhasil dijalankan! 10 laporan dibuat.\n";
     }
 }

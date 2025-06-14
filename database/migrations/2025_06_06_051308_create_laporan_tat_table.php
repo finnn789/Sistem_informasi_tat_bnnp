@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('surat_perintah_penangkapan');
             $table->string('nomor_surat_permohonan_tat')->unique();
             $table->text('kronologis');
-            $table->foreignId('data_tersangka_id')->constrained('tersangka');
             $table->string('laporan_polisi');
             $table->string('surat_perintah_penyidikan')->unique();
             $table->string('surat_uji_laboratorium');

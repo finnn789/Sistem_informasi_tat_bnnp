@@ -13,10 +13,14 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->count(10)->create(); // Membuat 10 user dengan data acak
-
-        // Atau jika ingin membuat user dengan role tertentu
-        User::factory()->operator()->count(5)->create(); // Membuat 5 user dengan role 'operator'
-        User::factory()->admin()->count(2)->create();
+        User::create([
+            'name' => 'Kepolisian Lubeg',
+            'email' => 'operator1@gmail.com',
+            'password' => bcrypt('12345678'),
+            'nrp' => '1234567890',  // Ganti dengan NRP yang sesuai
+            'no_telp' => '081234567890',  // Ganti dengan nomor telepon yang sesuai
+            'satuan_kerja' => 'Satuan Kerja Polres Lubeg',  // Ganti dengan satuan kerja yang sesuai
+            'role' => 'operator',  // Ganti dengan role yang sesuai
+        ]);
     }
 }

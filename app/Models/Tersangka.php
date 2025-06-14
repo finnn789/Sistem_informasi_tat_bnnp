@@ -15,7 +15,6 @@ class Tersangka extends Model
     protected $fillable = [
         'nama',
         'no_ktp',
-        'data_tersangka_id',
         'jenis_kelamin',
         'alamat',
         'tanggal_lahir',
@@ -23,7 +22,8 @@ class Tersangka extends Model
     ];
     public function laporanTAT()
     {
-        return $this->hasMany(LaporanTAT::class, 'data_tersangka_id');
+         return $this->belongsToMany(LaporanTAT::class, 'laporan_tersangka', 'tersangka_id', 'laporan_tat_id')
+                    ->withTimestamps();
     }
 }
 // This model represents a suspect in the system, with fields for their name, ID number, address, date of birth, and a photo of their ID card.
