@@ -384,7 +384,7 @@
 
                                     <!-- Menampilkan Surat Permohonan TAT -->
                                     <td class="py-3 px-4 whitespace-nowrap text-sm text-gray-700">
-                                        {{ $laporan->surat_permohonan_tat }}</td>
+                                        {{ $laporan->nomor_surat_permohonan_tat }}</td>
 
                                     <!-- Menampilkan Tanggal Pengajuan -->
                                     <td class="py-3 px-4 whitespace-nowrap text-sm text-gray-700">
@@ -409,8 +409,8 @@
 
                                     <td class="py-3 px-4 whitespace-nowrap">
                                         {{-- Tombol Aksi --}}
-                                        {{-- <div class="flex space-x-2">
-                                            <a href="{{ route('operator.laporan.show', $laporan->id) }}"
+                                        <div class="flex space-x-2">
+                                            <a "
                                                 class="text-green-600 hover:text-green-800 text-xs">
                                                 <i class="fas fa-eye"></i> Lihat
                                             </a>
@@ -421,7 +421,7 @@
                                             <a href="#" class="text-red-600 hover:text-red-800 text-xs">
                                                 <i class="fas fa-trash"></i> Hapus
                                             </a>
-                                        </div> --}}
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach

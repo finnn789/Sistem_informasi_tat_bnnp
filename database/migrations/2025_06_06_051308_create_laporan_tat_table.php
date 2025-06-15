@@ -21,9 +21,9 @@ return new class extends Migration
             $table->string('laporan_polisi');
             $table->string('surat_perintah_penyidikan')->unique();
             $table->string('surat_uji_laboratorium');
-            $table->string('berita_acara_pemeriksaan_tersangka');
-            $table->string('surat_persetujuan_tat');
-            $table->string('surat_pernyataan_penyidik');
+            $table->string('berita_acara_pemeriksaan_tersangka')->nullable();
+            $table->string('surat_persetujuan_tat')->nullable();
+            $table->string('surat_pernyataan_penyidik')->nullable();
             $table->enum('status', ['menunggu', 'diterima', 'ditolak']);
             $table->text('alasan_penolakan')->nullable();
             $table->dateTime('tanggal_pelaksanaan')->nullable();

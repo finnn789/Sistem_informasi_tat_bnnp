@@ -34,15 +34,12 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth', 'role:operator'])->group(function () {
-    // Dashboard Operator
     Route::get('/operator/dashboard', [OperatorDashboardController::class, 'index'])->name('operator.dashboard');
-    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
-        ->name('logout');
-
+    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
     Route::post('/operator/laporan/store', [OperatorDashboardController::class, 'store'])->name('operator.laporan.store');
-
-    // Form untuk membuat laporan
     Route::get('/operator/laporan/create', [OperatorDashboardController::class, 'create'])->name('operator.laporan.create');
+    Route::get('/operator/laporan/{id}/edit', [OperatorDashboardController::class, 'editlaporan'])->name('operator.laporan.edit');
+
 });
 Route::get('/csrf-token', function () {
     return Response::json(['csrf_token' => csrf_token()]);

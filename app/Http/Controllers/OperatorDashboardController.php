@@ -24,7 +24,7 @@ class OperatorDashboardController extends Controller
         // Mengambil semua laporan TAT yang pernah dilaporkan oleh Operator saat ini
 
         $laporanTAT = LaporanTAT::where('user_id', auth()->id())->paginate(10);
-        dump(auth()->id());
+
         // $dataUser = auth()->user();
         $user = Auth::user();
         $nama = $user->name;
@@ -55,24 +55,24 @@ class OperatorDashboardController extends Controller
         return view('operator.create-laporan');
     }
 
-      public function store(Request $request)
+    public function store(Request $request)
     {
-    
         // Validasi request
         $validatedData = $request->validate([
             'user_id' => 'required|exists:users,id',
             'kronologis' => 'required|string|min:10',
             'tanggal_pelaksanaan' => 'nullable|date',
-            
+            'nomor_surat_permohonan_tat' => 'nullable|string|max:255',
+
             // Validasi tersangka
             'tersangka' => 'required|array|min:1',
             'tersangka.*.nama' => 'required|string|max:255',
-            'tersangka.*.no_ktp' => 'required|string|size:16|regex:/^[0-9]+$/',
+            'tersangka.*.no_ktp' => 'required|string|size:16|regex:/^[0-9]+$/|distinct',
             'tersangka.*.jenis_kelamin' => 'required|in:L,P',
             'tersangka.*.tanggal_lahir' => 'required|date|before:today',
             'tersangka.*.alamat' => 'required|string',
             'tersangka.*.foto_ktp' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            
+
             // Validasi file dokumen
             'surat_permohonan_tat' => 'required|file|mimes:pdf,doc,docx|max:2048',
             'surat_perintah_penangkapan' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
@@ -90,6 +90,7 @@ class OperatorDashboardController extends Controller
             'tersangka.*.no_ktp.required' => 'No. KTP tersangka harus diisi.',
             'tersangka.*.no_ktp.size' => 'No. KTP harus 16 digit.',
             'tersangka.*.no_ktp.regex' => 'No. KTP hanya boleh berisi angka.',
+            'tersangka.*.no_ktp.distinct' => 'No. KTP tersangka tidak boleh sama.',
             'tersangka.*.jenis_kelamin.required' => 'Jenis kelamin tersangka harus dipilih.',
             'tersangka.*.tanggal_lahir.required' => 'Tanggal lahir tersangka harus diisi.',
             'tersangka.*.tanggal_lahir.before' => 'Tanggal lahir harus sebelum hari ini.',
@@ -104,14 +105,14 @@ class OperatorDashboardController extends Controller
             'kronologis.required' => 'Kronologis kejadian harus diisi.',
             'kronologis.min' => 'Kronologis minimal 10 karakter.',
         ]);
-        
+
         try {
             DB::beginTransaction();
 
             // Array untuk menyimpan ID tersangka
             $tersangkaIds = [];
 
-            // 1. Simpan data tersangka
+            // 1. Simpan data tersangka menggunakan firstOrCreate untuk avoid duplikasi
             foreach ($validatedData['tersangka'] as $index => $tersangkaData) {
                 // Handle upload foto KTP jika ada
                 $fotoKtpPath = null;
@@ -120,15 +121,22 @@ class OperatorDashboardController extends Controller
                     $fotoKtpPath = $fotoKtpFile->store('tersangka/ktp', 'public');
                 }
 
-                // Simpan data tersangka
-                $tersangka = Tersangka::create([
-                    'nama' => $tersangkaData['nama'],
-                    'no_ktp' => $tersangkaData['no_ktp'],
-                    'jenis_kelamin' => $tersangkaData['jenis_kelamin'],
-                    'tanggal_lahir' => $tersangkaData['tanggal_lahir'],
-                    'alamat' => $tersangkaData['alamat'],
-                    'foto_ktp' => $fotoKtpPath,
-                ]);
+                // Cari atau buat tersangka baru berdasarkan no_ktp
+                $tersangka = Tersangka::firstOrCreate(
+                    ['no_ktp' => $tersangkaData['no_ktp']], // Cari berdasarkan NIK
+                    [
+                        'nama' => $tersangkaData['nama'],
+                        'jenis_kelamin' => $tersangkaData['jenis_kelamin'],
+                        'tanggal_lahir' => $tersangkaData['tanggal_lahir'],
+                        'alamat' => $tersangkaData['alamat'],
+                        'foto_ktp' => $fotoKtpPath,
+                    ]
+                );
+
+                // Jika tersangka sudah ada tapi foto KTP baru diupload, update foto
+                if (!$tersangka->wasRecentlyCreated && $fotoKtpPath) {
+                    $tersangka->update(['foto_ktp' => $fotoKtpPath]);
+                }
 
                 $tersangkaIds[] = $tersangka->id;
             }
@@ -161,11 +169,10 @@ class OperatorDashboardController extends Controller
             // 4. Simpan laporan TAT
             $laporanTat = LaporanTAT::create([
                 'user_id' => $validatedData['user_id'],
-                'nomor_surat_permohonan_tat' => $nomorSurat,
+                'nomor_surat_permohonan_tat' => $validatedData['nomor_surat_permohonan_tat'] ?? $nomorSurat,
                 'kronologis' => $validatedData['kronologis'],
-                'data_tersangka_id' => json_encode($tersangkaIds), // Simpan array ID tersangka
                 'tanggal_pelaksanaan' => $validatedData['tanggal_pelaksanaan'],
-                'status' => 'pending', // Status default
+                'status' => 'menunggu', // Status default sesuai enum
                 'surat_permohonan_tat' => $documentPaths['surat_permohonan_tat'] ?? null,
                 'surat_perintah_penangkapan' => $documentPaths['surat_perintah_penangkapan'] ?? null,
                 'laporan_polisi' => $documentPaths['laporan_polisi'] ?? null,
@@ -177,12 +184,14 @@ class OperatorDashboardController extends Controller
                 'file_surat_penerimaan' => $documentPaths['file_surat_penerimaan'] ?? null,
             ]);
 
+            // 5. Hubungkan laporan dengan tersangka menggunakan relasi many-to-many
+            $laporanTat->tersangka()->attach($tersangkaIds);
+
             DB::commit();
 
             return redirect()
                 ->route('operator.laporan.create')
-                ->with('success', 'Laporan TAT berhasil disimpan dengan nomor: ' . $nomorSurat);
-
+                ->with('success', 'Laporan TAT berhasil disimpan dengan nomor: ' . $laporanTat->nomor_surat_permohonan_tat);
         } catch (\Exception $e) {
             DB::rollback();
 
@@ -199,4 +208,55 @@ class OperatorDashboardController extends Controller
                 ->with('error', 'Terjadi kesalahan saat menyimpan laporan: ' . $e->getMessage());
         }
     }
+
+    /**
+     * Generate nomor surat otomatis
+     */
+    private function generateNomorSurat()
+    {
+        $tahun = date('Y');
+
+        // Ambil nomor urut terakhir dari database untuk tahun ini
+        $lastLaporan = LaporanTAT::whereYear('created_at', $tahun)
+            ->orderBy('id', 'desc')
+            ->first();
+
+        // Tentukan nomor urut berikutnya
+        if ($lastLaporan) {
+            // Extract nomor dari nomor surat terakhir
+            $lastNumber = $this->extractNumberFromSurat($lastLaporan->nomor_surat_permohonan_tat);
+            $nextNumber = $lastNumber + 1;
+        } else {
+            $nextNumber = 1;
+        }
+
+        // Format: TAT/001/2025
+        return 'TAT/' . sprintf('%03d', $nextNumber) . '/' . $tahun;
+    }
+
+    /**
+     * Extract nomor urut dari nomor surat
+     */
+    private function extractNumberFromSurat($nomorSurat)
+    {
+        // Contoh: TAT/001/2025 -> ambil 001
+        $parts = explode('/', $nomorSurat);
+        if (count($parts) >= 2) {
+            return intval($parts[1]);
+        }
+        return 0;
+    }
+
+    public function editlaporan($id)
+    {
+        // Ambil laporan berdasarkan ID
+        $laporan = LaporanTAT::findOrFail($id);
+        // dd($laporan);
+        // Ambil semua tersangka yang terkait dengan laporan ini
+        $tersangka = $laporan->tersangka;
+        // dd($tersangka, $laporan);
+
+        return view('operator.edit-laporan', compact('laporan', 'tersangka'));
+    }
+
 }
