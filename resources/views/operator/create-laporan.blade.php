@@ -416,12 +416,32 @@
     </div>
 
     {{-- JavaScript untuk validasi dan enhancement --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @if (session('success'))
-        <p class="mt-1 text-sm text-green-500"> {{ session('success') }}</p>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: '{{ session('success') }}',
+                showConfirmButton: true,
+                timer: 3000              
+            }).then((result) => {
+                if(result.isConfirmed) {
+                    window.location.href = "{{ route('operator.dashboard') }}";
+                }
+            });
+        </script>
     @endif
 
     @if (session('error'))
-        <p class="mt-1 text-sm text-red-500"> {{ session('error') }}</p>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: '{{ session('error') }}',
+                showConfirmButton: true
+            });
+        </script>
     @endif
     <script>
         document.addEventListener('DOMContentLoaded', function() {

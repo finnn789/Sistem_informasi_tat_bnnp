@@ -16,7 +16,7 @@
 
                 {{-- Form Body --}}
                 <div class="p-8">
-                    <form action="" method="POST" enctype="multipart/form-data" class="space-y-8">
+                    <form action="{{ route('operator.laporan.update', $laporan->id) }}" method="POST" enctype="multipart/form-data" class="space-y-8">
                         @csrf
                         @method('PUT')
                         <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
@@ -652,14 +652,19 @@
     </div>
 
     {{-- JavaScript untuk validasi dan enhancement --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @if (session('success'))
         <script>
             Swal.fire({
                 icon: 'success',
                 title: 'Berhasil!',
                 text: '{{ session('success') }}',
-                showConfirmButton: false,
-                timer: 3000
+                showConfirmButton: true,
+                timer: 3000              
+            }).then((result) => {
+                if(result.isConfirmed) {
+                    window.location.href = "{{ route('operator.dashboard') }}";
+                }
             });
         </script>
     @endif
