@@ -13,6 +13,8 @@ class AdminController extends Controller
     $menunggu = LaporanTAT::where('status', 'menunggu')->count();
     $ditolak = LaporanTAT::where('status', 'ditolak')->count();
 
+    // dd($total, $diterima, $menunggu, $ditolak);
+
     return view('admin.dashboard', compact('total', 'diterima', 'menunggu', 'ditolak'));
 }
 
