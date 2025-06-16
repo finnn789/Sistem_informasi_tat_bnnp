@@ -7,10 +7,12 @@ use App\Http\Controllers\OperatorDashboardController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Illuminate\Support\Facades\Response;
 use PHPUnit\Framework\Constraint\Operator;
+use App\Http\Controllers\AdminController;
 
 Route::get('/', function () {
     return view('auth.login');
 });
+
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
@@ -48,5 +50,23 @@ Route::get('/csrf-token', function () {
 Route::get('/table', function () {
     return view('operator.table');
 })->name('operator.table');
+
+Route::prefix('admin')->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('/laporan/{id}', [AdminController::class, 'show'])->name('admin.laporan.show');
+    Route::get('/laporan/{id}/approve', [AdminController::class, 'approve'])->name('admin.laporan.approve');
+    Route::get('/laporan/{id}/reject', [AdminController::class, 'reject'])->name('admin.laporan.reject');
+    Route::get('/admin/surat-masuk', [AdminController::class, 'suratMasuk'])->name('admin.suratmasuk');
+    Route::post('/laporan/{id}/terima', [AdminController::class, 'terima'])->name('admin.terima');
+    Route::post('/laporan/{id}/tolak', [AdminController::class, 'tolak'])->name('admin.tolak');
+    Route::post('/admin/laporan/{id}/setujui', [AdminController::class, 'setujui'])->name('admin.laporan.setujui');
+    Route::post('/admin/laporan/{id}/tolak', [AdminController::class, 'tolak'])->name('admin.laporan.tolak');
+    Route::get('/admin/laporan/{id}/detail', [AdminController::class, 'show'])->name('admin.laporan.detail');
+    Route::get('/admin/laporan/{id}/preview/{field}', [AdminController::class, 'preview'])->name('admin.laporan.preview');
+    Route::get('admin/laporan/{id}/hasilpreview/{field}', [AdminController::class, 'previewDokumen'])->name('admin.laporan.preview');
+
+
+
+});
 
 require __DIR__ . '/auth.php';
