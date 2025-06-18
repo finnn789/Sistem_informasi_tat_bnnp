@@ -1,4 +1,4 @@
-# 🛡️ Sistem TAT (Titik Alih Teknologi)
+# 🛡️ Sistem TAT (Tim Assesment Terpadu)
 
 <div align="center">
 
@@ -7,7 +7,7 @@
 ![MySQL](https://img.shields.io/badge/MySQL-8.0+-orange?style=for-the-badge&logo=mysql)
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
-**Sistem Manajemen Laporan TAT yang Modern dan Professional**
+**Sistem Manajemen Laporan TAT**
 
 [Demo](#) | [Dokumentasi](#dokumentasi) | [Installation](#installation) | [Contributing](#contributing)
 
@@ -17,7 +17,7 @@
 
 ## 📖 Tentang Sistem TAT
 
-Sistem TAT (Titik Alih Teknologi) adalah aplikasi web management system yang dibangun dengan Laravel untuk mengelola laporan dan administrasi TAT. Sistem ini dirancang dengan fokus pada **user experience**, **security**, dan **performance**.
+Sistem TAT (Tim Assesment Terpadu) adalah aplikasi web management system yang dibangun dengan Laravel untuk mengelola laporan dan administrasi TAT. Sistem ini dirancang dengan fokus pada **user experience**, **security**, dan **performance**.
 
 ### ✨ Fitur Utama
 
@@ -382,8 +382,9 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## 👨‍💻 Authors & Contributors
 
-- **Main Developer** - [Your Name](https://github.com/your-username)
-- **UI/UX Designer** - [Designer Name](https://github.com/designer-username)
+- **Developer** 
+- [Muhammad Arifin](https://github.com/finn789)
+- [Trio Maulana Malik](https://github.com/maulana-15)
 
 See the full list of [contributors](https://github.com/your-username/sistem-tat/contributors) who participated in this project.
 

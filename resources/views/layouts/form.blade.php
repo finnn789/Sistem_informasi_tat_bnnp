@@ -17,11 +17,11 @@
     <div class="min-h-screen flex flex-col">
 
         <!-- Navbar (Jika diperlukan) -->
-        <header class="bg-blue-600 text-white p-4">
+        {{-- <header class="bg-blue-600 text-white p-4">
             <div class="container mx-auto">
                 <h1 class="text-2xl font-semibold">Laporan Pembuatan</h1>
             </div>
-        </header>
+        </header> --}}
 
         <!-- Main Content -->
         <main class="flex-grow container mx-auto px-4 py-6">

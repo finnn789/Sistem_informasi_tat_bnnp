@@ -1,0 +1,369 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Preview Modal - Tailwind CSS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    animation: {
+                        'fade-in': 'fadeIn 0.3s ease-in-out',
+                        'scale-in': 'scaleIn 0.3s ease-in-out',
+                        'spin-slow': 'spin 2s linear infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        scaleIn: {
+                            '0%': { transform: 'scale(0.9)', opacity: '0' },
+                            '100%': { transform: 'scale(1)', opacity: '1' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .modal-backdrop {
+            backdrop-filter: blur(8px);
+        }
+        
+        .iframe-loading {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+        
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-100 to-slate-200 min-h-screen">
+    <!-- Header -->
+    <div class="bg-white shadow-lg border-b border-gray-200">
+        <div class="container mx-auto px-6 py-4">
+            <h1 class="text-3xl font-bold text-gray-800 flex items-center">
+                <i class="fas fa-folder-open text-blue-600 mr-3"></i>
+                File Manager
+            </h1>
+            <p class="text-gray-600 mt-1">Klik tombol "Lihat" untuk preview file dalam modal</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-6 py-8">
+        <!-- File List -->
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+            <div class="bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-4">
+                <h2 class="text-xl font-semibold text-white flex items-center">
+                    <i class="fas fa-files mr-2"></i>
+                    Daftar Dokumen
+                </h2>
+            </div>
+            
+            <div class="divide-y divide-gray-100">
+                <!-- File Item 1 -->
+                <div class="p-6 hover:bg-gray-50 transition-colors duration-200">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-file-pdf text-red-600 text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-800">Laporan Keuangan Q1.pdf</h3>
+                                <p class="text-sm text-gray-500 mt-1">PDF Document • 2.4 MB</p>
+                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 mt-2">
+                                    <i class="fas fa-eye mr-1"></i>
+                                    Dapat di-preview
+                                </span>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <button onclick="previewFile('Laporan Keuangan Q1.pdf', 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf')" 
+                                    class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                                <i class="fas fa-eye mr-2"></i>
+                                Lihat
+                            </button>
+                            <button class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg hover:from-green-600 hover:to-green-700 transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                                <i class="fas fa-download mr-2"></i>
+                                Download
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- File Item 2 -->
+                <div class="p-6 hover:bg-gray-50 transition-colors duration-200">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-file-image text-blue-600 text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-800">Grafik Penjualan.png</h3>
+                                <p class="text-sm text-gray-500 mt-1">PNG Image • 1.8 MB</p>
+                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 mt-2">
+                                    <i class="fas fa-eye mr-1"></i>
+                                    Dapat di-preview
+                                </span>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <button onclick="previewFile('Grafik Penjualan.png', 'https://via.placeholder.com/800x600/4285f4/ffffff?text=Sample+Image')" 
+                                    class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                                <i class="fas fa-eye mr-2"></i>
+                                Lihat
+                            </button>
+                            <button class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg hover:from-green-600 hover:to-green-700 transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                                <i class="fas fa-download mr-2"></i>
+                                Download
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- File Item 3 -->
+                <div class="p-6 hover:bg-gray-50 transition-colors duration-200">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-file-alt text-purple-600 text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-800">Dokumentasi.txt</h3>
+                                <p class="text-sm text-gray-500 mt-1">Text File • 245 KB</p>
+                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 mt-2">
+                                    <i class="fas fa-eye mr-1"></i>
+                                    Dapat di-preview
+                                </span>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <button onclick="previewFile('Dokumentasi.txt', 'data:text/plain;charset=utf-8,Ini%20adalah%20contoh%20file%20text%20untuk%20preview.%0A%0ASemua%20dokumentasi%20sistem%20ada%20di%20sini.%0A%0A1.%20Setup%20Database%0A2.%20Konfigurasi%20Server%0A3.%20Deploy%20Aplikasi')" 
+                                    class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                                <i class="fas fa-eye mr-2"></i>
+                                Lihat
+                            </button>
+                            <button class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg hover:from-green-600 hover:to-green-700 transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                                <i class="fas fa-download mr-2"></i>
+                                Download
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- File Item 4 - Not Previewable -->
+                <div class="p-6 hover:bg-gray-50 transition-colors duration-200">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-file-archive text-yellow-600 text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-800">Backup Data.zip</h3>
+                                <p class="text-sm text-gray-500 mt-1">ZIP Archive • 15.2 MB</p>
+                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800 mt-2">
+                                    <i class="fas fa-download mr-1"></i>
+                                    Download saja
+                                </span>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <button onclick="showNotPreviewable('Backup Data.zip')" 
+                                    class="inline-flex items-center px-4 py-2 bg-gray-400 text-white rounded-lg cursor-not-allowed opacity-60">
+                                <i class="fas fa-eye-slash mr-2"></i>
+                                Tidak bisa dilihat
+                            </button>
+                            <button class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg hover:from-green-600 hover:to-green-700 transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                                <i class="fas fa-download mr-2"></i>
+                                Download
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Preview -->
+    
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-4 right-4 z-50 hidden">
+        <div class="bg-white border border-gray-200 rounded-lg shadow-lg p-4 max-w-sm animate-fade-in">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+                    <i id="toastIcon" class="fas fa-info-circle text-blue-600"></i>
+                </div>
+                <div class="ml-3">
+                    <p id="toastMessage" class="text-sm font-medium text-gray-800"></p>
+                </div>
+                <div class="ml-auto pl-3">
+                    <button onclick="hideToast()" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentFileUrl = '';
+        let currentFileName = '';
+
+        // Function to preview file
+        function previewFile(fileName, fileUrl) {
+            currentFileName = fileName;
+            currentFileUrl = fileUrl;
+            
+            // Show modal
+            document.getElementById('previewModal').classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+            
+            // Update modal title
+            document.getElementById('modalTitle').textContent = fileName;
+            document.getElementById('fileInfo').textContent = `Preview: ${fileName}`;
+            
+            // Show loading state
+            document.getElementById('loadingState').classList.remove('hidden');
+            document.getElementById('errorState').classList.add('hidden');
+            document.getElementById('previewIframe').style.display = 'none';
+            
+            // Set iframe source
+            setTimeout(() => {
+                document.getElementById('previewIframe').src = fileUrl;
+            }, 500); // Small delay for better UX
+        }
+
+        // Function to handle iframe load success
+        function handleIframeLoad() {
+            document.getElementById('loadingState').classList.add('hidden');
+            document.getElementById('errorState').classList.add('hidden');
+            document.getElementById('previewIframe').style.display = 'block';
+            
+            showToast('success', 'File berhasil dimuat!');
+        }
+
+        // Function to handle iframe load error
+        function handleIframeError() {
+            document.getElementById('loadingState').classList.add('hidden');
+            document.getElementById('errorState').classList.remove('hidden');
+            document.getElementById('previewIframe').style.display = 'none';
+            
+            showToast('error', 'Gagal memuat file preview');
+        }
+
+        // Function to retry preview
+        function retryPreview() {
+            document.getElementById('errorState').classList.add('hidden');
+            document.getElementById('loadingState').classList.remove('hidden');
+            
+            setTimeout(() => {
+                document.getElementById('previewIframe').src = currentFileUrl + '?retry=' + Date.now();
+            }, 300);
+        }
+
+        // Function to close modal
+        function closeModal() {
+            document.getElementById('previewModal').classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+            
+            // Clear iframe
+            document.getElementById('previewIframe').src = '';
+            currentFileUrl = '';
+            currentFileName = '';
+        }
+
+        // Function to open fullscreen
+        function openFullscreen() {
+            const iframe = document.getElementById('previewIframe');
+            if (iframe.requestFullscreen) {
+                iframe.requestFullscreen();
+            } else if (iframe.webkitRequestFullscreen) {
+                iframe.webkitRequestFullscreen();
+            } else if (iframe.mozRequestFullScreen) {
+                iframe.mozRequestFullScreen();
+            } else if (iframe.msRequestFullscreen) {
+                iframe.msRequestFullscreen();
+            }
+        }
+
+        // Function to download file
+        function downloadFile() {
+            if (currentFileUrl && currentFileName) {
+                // Create temporary link for download
+                const link = document.createElement('a');
+                link.href = currentFileUrl;
+                link.download = currentFileName;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                showToast('success', `Mengunduh ${currentFileName}...`);
+            }
+        }
+
+        // Function to show not previewable message
+        function showNotPreviewable(fileName) {
+            showToast('warning', `File ${fileName} tidak dapat di-preview. Silakan download untuk melihat isinya.`);
+        }
+
+        // Function to show toast notification
+        function showToast(type, message) {
+            const toast = document.getElementById('toast');
+            const toastIcon = document.getElementById('toastIcon');
+            const toastMessage = document.getElementById('toastMessage');
+            
+            // Set icon and color based on type
+            if (type === 'success') {
+                toastIcon.className = 'fas fa-check-circle text-green-600';
+            } else if (type === 'error') {
+                toastIcon.className = 'fas fa-exclamation-circle text-red-600';
+            } else if (type === 'warning') {
+                toastIcon.className = 'fas fa-exclamation-triangle text-yellow-600';
+            } else {
+                toastIcon.className = 'fas fa-info-circle text-blue-600';
+            }
+            
+            toastMessage.textContent = message;
+            toast.classList.remove('hidden');
+            
+            // Auto hide after 3 seconds
+            setTimeout(() => {
+                hideToast();
+            }, 3000);
+        }
+
+        // Function to hide toast
+        function hideToast() {
+            document.getElementById('toast').classList.add('hidden');
+        }
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Prevent modal close when clicking inside modal content
+        document.addEventListener('click', function(event) {
+            const modal = document.getElementById('previewModal');
+            const modalContent = modal.querySelector('div > div');
+            
+            if (event.target === modal && !modalContent.contains(event.target)) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
