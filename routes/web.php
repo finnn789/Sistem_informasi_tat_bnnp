@@ -30,14 +30,20 @@ Route::get('/', function () {
 
 // Profile Routes
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');\
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::patch('/profile/update', [ProfileController::class, 'updateProfile'])->name('profile.update');
+    Route::patch('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
+    Route::post('/profile/photo', [ProfileController::class, 'updatePhoto'])->name('profile.photo');
+    Route::delete('/profile/photo', [ProfileController::class, 'deletePhoto'])->name('profile.photo.delete');
 });
 
 Route::middleware(['auth', 'role:operator'])->group(function () {
     Route::get('/operator/dashboard', [OperatorDashboardController::class, 'index'])->name('operator.dashboard');
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+    Route::get('/files/preview/{filename}', [OperatorDashboardController::class, 'preview'])->name('files.preview');
     Route::post('/operator/laporan/store', [OperatorDashboardController::class, 'store'])->name('operator.laporan.store');
     Route::get('/operator/laporan/create', [OperatorDashboardController::class, 'create'])->name('operator.laporan.create');
     Route::get('/operator/laporan/{id}/edit', [OperatorDashboardController::class, 'editlaporan'])->name('operator.laporan.edit');
@@ -49,26 +55,28 @@ Route::get('/csrf-token', function () {
     return Response::json(['csrf_token' => csrf_token()]);
 });
 
+Route::middleware('auth')->group(function () {});
+
+
 Route::get('/table', function () {
     return view('operator.table');
 })->name('operator.table');
-
-Route::prefix('admin')->group(function () {
-    Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
-    Route::get('/laporan/{id}', [AdminController::class, 'show'])->name('admin.laporan.show');
-    Route::get('/laporan/{id}/approve', [AdminController::class, 'approve'])->name('admin.laporan.approve');
-    Route::get('/laporan/{id}/reject', [AdminController::class, 'reject'])->name('admin.laporan.reject');
-    Route::get('/admin/surat-masuk', [AdminController::class, 'suratMasuk'])->name('admin.suratmasuk');
-    Route::post('/laporan/{id}/terima', [AdminController::class, 'terima'])->name('admin.terima');
-    Route::post('/laporan/{id}/tolak', [AdminController::class, 'tolak'])->name('admin.tolak');
-    Route::post('/admin/laporan/{id}/setujui', [AdminController::class, 'setujui'])->name('admin.laporan.setujui');
-    Route::post('/admin/laporan/{id}/tolak', [AdminController::class, 'tolak'])->name('admin.laporan.tolak');
-    Route::get('/admin/laporan/{id}/detail', [AdminController::class, 'show'])->name('admin.laporan.detail');
-    Route::get('/admin/laporan/{id}/preview/{field}', [AdminController::class, 'preview'])->name('admin.laporan.preview');
-    Route::get('admin/laporan/{id}/hasilpreview/{field}', [AdminController::class, 'previewDokumen'])->name('admin.laporan.preview');
-
-
-
+Route::middleware(['auth', 'role:admin_bnn'])->group(function () {
+    Route::prefix('admin')->group(function () {
+        Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+        Route::get('/laporan/{id}', [AdminController::class, 'show'])->name('admin.laporan.show');
+        Route::get('/laporan/{id}/approve', [AdminController::class, 'approve'])->name('admin.laporan.approve');
+        Route::get('/laporan/{id}/reject', [AdminController::class, 'reject'])->name('admin.laporan.reject');
+        Route::get('/admin/surat-masuk', [AdminController::class, 'suratMasuk'])->name('admin.suratmasuk');
+        Route::post('/laporan/{id}/terima', [AdminController::class, 'terima'])->name('admin.terima');
+        Route::post('/laporan/{id}/tolak', [AdminController::class, 'tolak'])->name('admin.tolak');
+        Route::post('/admin/laporan/{id}/setujui', [AdminController::class, 'setujui'])->name('admin.laporan.setujui');
+        Route::post('/admin/laporan/{id}/tolak', [AdminController::class, 'tolak'])->name('admin.laporan.tolak');
+        Route::get('/admin/laporan/{id}/detail', [AdminController::class, 'show'])->name('admin.laporan.detail');
+        Route::get('/admin/laporan/{id}/preview/{field}', [AdminController::class, 'preview'])->name('admin.laporan.preview');
+        Route::get('admin/laporan/{id}/hasilpreview/{field}', [AdminController::class, 'previewDokumen'])->name('admin.laporan.preview');
+    });
 });
+
 
 require __DIR__ . '/auth.php';

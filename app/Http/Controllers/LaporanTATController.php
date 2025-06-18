@@ -39,4 +39,28 @@ class LaporanTATController extends Controller
 
         return redirect()->route('operator.dashboard')->with('success', 'Berkas berhasil dikirim.');
     }
+
+    public function laporanDisetujui()
+    {
+        $laporanTAT = LaporanTAT::where('user_id', auth()->id())->paginate(10);
+
+        // $dataUser = auth()->user();
+        $user = Auth::user();
+        $nama = $user->name;
+
+        $satker = $user->satuan_kerja;
+
+        $totalLaporan = LaporanTAT::where('user_id', auth()->id())->count(); // Total laporan (tanpa pagination)
+        $totalDiterima = LaporanTAT::where('user_id', auth()->id())->where('status', 'diterima')->count();
+
+        return view('operator.dashboard', compact(
+            'laporanTAT',
+            'nama',
+            'satker',
+            'totalLaporan',
+            'totalDiterima',
+            'totalDitolak',
+            'totalProses'
+        ));
+    }
 }

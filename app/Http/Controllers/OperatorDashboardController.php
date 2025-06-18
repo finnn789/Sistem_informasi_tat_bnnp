@@ -11,7 +11,7 @@ use App\Models\Tersangka;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Models\DataTersangka;
-
+use Illuminate\Support\Facades\Response;
 use App\Models\LaporanTAT as LaporanTATModel;
 
 class OperatorDashboardController extends Controller
@@ -617,4 +617,40 @@ class OperatorDashboardController extends Controller
                 ->with('error', 'Terjadi kesalahan saat menghapus laporan: ' . $e->getMessage());
         }
     }
+<<<<<<< HEAD
+=======
+
+    public function preview($filename)
+    {
+        $filePath = 'laporan-tat/dokumen/' . $filename;
+
+        // dd(storage_path($filePath));
+        // dd();
+        // dd($filePath);
+        //     dd([
+        // 'filename' => $filename,
+        // 'filePath' => $filePath,
+        // 'storage_path' => storage_path('app/' . $filePath),
+        // 'file_exists_storage' => Storage::exists($filePath),
+        // 'file_exists_real_path' => file_exists(storage_path('app/' . $filePath)),
+        // 'storage_disk' => config('filesystems.default'),
+        // 'all_files_in_folder' => Storage::files('laporan-tat/dokumen'),
+        // 'folder_exists' => Storage::exists('laporan-tat/dokumen'),
+        // ]);
+        // Check if file exists
+        if (!Storage::disk('public')->exists($filePath)) {
+            abort(404, 'File not found');
+        }
+
+        $mimeType = Storage::mimeType($filePath);
+        $fileContent = Storage::get($filePath);
+
+        // Return file content with appropriate headers for preview
+        return Response::make($fileContent, 200, [
+            'Content-Type' => $mimeType,
+            'Content-Disposition' => 'inline; filename="' . $filename . '"'
+        ]);
+    }
+
+>>>>>>> dc3a96a07d13a86b14bd64e61b2718ea06d465ea
 }

@@ -378,7 +378,7 @@
                         <div class="bg-gray-50 rounded-xl p-6">
                             <div
                                 class="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0 sm:space-x-4">
-                                <a href="#"
+                                <a href="{{ route('operator.dashboard') }}"
                                     class="inline-flex items-center px-6 py-3 bg-gray-500 hover:bg-gray-600 text-white font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                                     <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd"
@@ -414,6 +414,8 @@
             </div>
         </div>
     </div>
+
+    
 
     {{-- JavaScript untuk validasi dan enhancement --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

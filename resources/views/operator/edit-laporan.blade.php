@@ -16,7 +16,12 @@
 
                 {{-- Form Body --}}
                 <div class="p-8">
+<<<<<<< HEAD
                     <form action="{{ route('operator.laporan.update', $laporan->id) }}" method="POST" enctype="multipart/form-data" class="space-y-8">
+=======
+                    <form action="{{ route('operator.laporan.update', $laporan->id) }}" method="POST"
+                        enctype="multipart/form-data" class="space-y-8">
+>>>>>>> dc3a96a07d13a86b14bd64e61b2718ea06d465ea
                         @csrf
                         @method('PUT')
                         <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
@@ -285,6 +290,7 @@
                                                 <a href="{{ asset('storage/' . $laporan->surat_permohonan_tat) }}"
                                                     target="_blank"
                                                     class="text-blue-600 hover:text-blue-800 text-sm">Lihat</a>
+
                                             </div>
                                         </div>
                                     @endif
@@ -434,6 +440,7 @@
                                                 <a href="{{ asset('storage/' . $laporan->surat_uji_laboratorium) }}"
                                                     target="_blank"
                                                     class="text-blue-600 hover:text-blue-800 text-sm">Lihat</a>
+
                                             </div>
                                         </div>
                                     @endif
@@ -614,7 +621,7 @@
                         <div class="bg-gray-50 rounded-xl p-6">
                             <div
                                 class="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0 sm:space-x-4">
-                                <a href=""
+                                <a href="{{ route('operator.dashboard') }}"
                                     class="inline-flex items-center px-6 py-3 bg-gray-500 hover:bg-gray-600 text-white font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                                     <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd"
@@ -624,15 +631,7 @@
                                     Kembali
                                 </a>
                                 <div class="flex space-x-3">
-                                    <button type="button" onclick="resetForm()"
-                                        class="inline-flex items-center px-6 py-3 bg-yellow-500 hover:bg-yellow-600 text-white font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd"
-                                                d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
-                                                clip-rule="evenodd"></path>
-                                        </svg>
-                                        Reset
-                                    </button>
+                                    
                                     <button type="submit"
                                         class="inline-flex items-center px-8 py-3 bg-gradient-to-r from-[#003366] to-blue-800 hover:from-blue-800 hover:to-[#003366] text-white font-bold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                                         <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
@@ -647,6 +646,7 @@
                         </div>
                     </form>
                 </div>
+
             </div>
         </div>
     </div>
@@ -660,9 +660,15 @@
                 title: 'Berhasil!',
                 text: '{{ session('success') }}',
                 showConfirmButton: true,
+<<<<<<< HEAD
                 timer: 3000              
             }).then((result) => {
                 if(result.isConfirmed) {
+=======
+                timer: 3000
+            }).then((result) => {
+                if (result.isConfirmed) {
+>>>>>>> dc3a96a07d13a86b14bd64e61b2718ea06d465ea
                     window.location.href = "{{ route('operator.dashboard') }}";
                 }
             });
@@ -681,6 +687,22 @@
     @endif
 
     <script>
+        function resetForm() {
+            Swal.fire({
+                title: 'Reset Form?',
+                text: 'Semua perubahan akan hilang dan kembali ke data awal',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#f59e0b',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Ya, Reset!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    location.reload();
+                }
+            });
+        }
         document.addEventListener('DOMContentLoaded', function() {
             // Set initial tersangka count based on existing data
             let tersangkaCount = {{ count($laporan->tersangka) }};
@@ -746,6 +768,8 @@
                     }
                 });
             });
+
+
 
             // Function to add new tersangka field
             document.getElementById('add-tersangka').addEventListener('click', function() {
@@ -899,6 +923,8 @@
                 });
             });
 
+
+
             // KTP number validation for all KTP inputs (including initial ones)
             const ktpInputs = document.querySelectorAll('.ktp-input, input[name*="no_ktp"]');
             ktpInputs.forEach(input => {
@@ -910,7 +936,7 @@
             // Function to remove tersangka field
             document.addEventListener('click', function(e) {
                 if (e.target.classList.contains('remove-tersangka') || e.target.closest(
-                    '.remove-tersangka')) {
+                        '.remove-tersangka')) {
                     const tersangkaField = e.target.closest('.tersangka-field');
                     const remainingFields = document.querySelectorAll('.tersangka-field').length;
 
@@ -958,22 +984,6 @@
             });
         });
 
-        // Reset form function
-        function resetForm() {
-            Swal.fire({
-                title: 'Reset Form?',
-                text: 'Semua perubahan akan hilang dan kembali ke data awal',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#f59e0b',
-                cancelButtonColor: '#6b7280',
-                confirmButtonText: 'Ya, Reset!',
-                cancelButtonText: 'Batal'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    location.reload();
-                }
-            });
-        }
+        // @include('layouts.modal-preview')
     </script>
 @endsection
