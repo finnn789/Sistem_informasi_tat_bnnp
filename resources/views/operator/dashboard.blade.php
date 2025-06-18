@@ -138,7 +138,8 @@
                             <div class="border-t border-gray-100"></div>
                             <form action="{{ route('logout') }}" method="POST">
                                 @csrf
-                                <button type="submit" class="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-gray-100">
+                                <button type="submit"
+                                    class="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-gray-100">
                                     <i class="fas fa-sign-out-alt mr-2"></i> Keluar
                                 </button>
                             </form>
@@ -246,7 +247,7 @@
 </div> --}}
 
 
-        
+
     </div>
 
     <!-- Main Content -->
@@ -409,18 +410,49 @@
 
                                     <td class="py-3 px-4 whitespace-nowrap">
                                         {{-- Tombol Aksi --}}
-                                        <div class="flex space-x-2">
-                                            <a "
-                                                class="text-green-600 hover:text-green-800 text-xs">
-                                                <i class="fas fa-eye"></i> Lihat
-                                            </a>
-                                            <a href="{{ route('operator.laporan.edit', $laporan->id) }}"
-                                                class="text-blue-600 hover:text-blue-800 text-xs">
-                                                <i class="fas fa-edit"></i> Edit
-                                            </a>
-                                            <a href="#" class="text-red-600 hover:text-red-800 text-xs">
-                                                <i class="fas fa-trash"></i> Hapus
-                                            </a>
+                                        <div class="flex items-center space-x-2">
+                                            @if ($laporan->status === 'diterima')
+                                                <a href="#"
+                                                    class="group relative inline-flex items-center justify-center px-4 py-2 
+                  bg-white border border-green-300 text-green-700 text-sm font-medium 
+                  rounded-md hover:bg-green-50 hover:border-green-400 hover:text-green-800 
+                  transition-all duration-150 ease-in-out shadow-sm hover:shadow">
+                                                    <i class="fas fa-eye mr-1.5 text-xs"></i>
+                                                    Lihat
+                                                    <span
+                                                        class="absolute inset-x-0 -bottom-px h-px bg-gradient-to-r from-transparent 
+                         via-green-500 to-transparent opacity-0 group-hover:opacity-100 
+                         transition-opacity duration-150"></span>
+                                                </a>
+                                            @endif
+
+                                            @if ($laporan->status === 'ditolak' || $laporan->status === 'menunggu')
+                                                <a href="{{ route('operator.laporan.edit', $laporan->id) }}"
+                                                    class="group relative inline-flex items-center justify-center px-4 py-2 
+                  bg-white border border-blue-300 text-blue-700 text-sm font-medium 
+                  rounded-md hover:bg-blue-50 hover:border-blue-400 hover:text-blue-800 
+                  transition-all duration-150 ease-in-out shadow-sm hover:shadow">
+                                                    <i class="fas fa-edit mr-1.5 text-xs"></i>
+                                                    Edit
+                                                    <span
+                                                        class="absolute inset-x-0 -bottom-px h-px bg-gradient-to-r from-transparent 
+                         via-blue-500 to-transparent opacity-0 group-hover:opacity-100 
+                         transition-opacity duration-150"></span>
+                                                </a>
+
+                                                <button data-id="{{ $laporan->id }}"
+                                                    class="deleteButton group relative inline-flex items-center justify-center px-4 py-2 
+                       bg-white border border-red-300 text-red-700 text-sm font-medium 
+                       rounded-md hover:bg-red-50 hover:border-red-400 hover:text-red-800 
+                       transition-all duration-150 ease-in-out shadow-sm hover:shadow">
+                                                    <i class="fas fa-trash mr-1.5 text-xs"></i>
+                                                    Hapus
+                                                    <span
+                                                        class="absolute inset-x-0 -bottom-px h-px bg-gradient-to-r from-transparent 
+                         via-red-500 to-transparent opacity-0 group-hover:opacity-100 
+                         transition-opacity duration-150"></span>
+                                                </button>
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>
@@ -461,7 +493,7 @@
             </div>
         </div>
     </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         // Toggle sidebar on mobile
         document.getElementById('sidebar-toggle').addEventListener('click', function() {
@@ -496,6 +528,85 @@
                 !dropdown.classList.contains('hidden')) {
                 dropdown.classList.add('hidden');
             }
+        });
+    </script>
+    <script>
+        // Ketika tombol hapus diklik
+        document.querySelectorAll('.deleteButton').forEach(button => {
+            button.addEventListener('click', function() {
+                // Ambil ID dari tombol yang diklik
+                var id = this.getAttribute('data-id');
+
+                // Tampilkan konfirmasi SweetAlert
+                Swal.fire({
+                    title: 'Apakah Anda yakin?',
+                    text: "Data yang dihapus tidak dapat dikembalikan!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya, Hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    // Jika pengguna mengklik 'Hapus'
+                    if (result.isConfirmed) {
+                        // Tampilkan loading
+                        Swal.fire({
+                            title: 'Menghapus...',
+                            text: 'Mohon tunggu sebentar',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            showConfirmButton: false,
+                            didOpen: () => {
+                                Swal.showLoading();
+                            }
+                        });
+
+                        // Membuat form untuk mengirimkan request DELETE dengan CSRF token
+                        var form = document.createElement('form');
+                        form.method = 'POST';
+                        form.action = `/operator/hapus/${id}`;
+                        form.style.display = 'none';
+
+                        // Membuat elemen input untuk method DELETE
+                        var methodInput = document.createElement('input');
+                        methodInput.type = 'hidden';
+                        methodInput.name = '_method';
+                        methodInput.value = 'DELETE';
+                        form.appendChild(methodInput);
+
+                        // Membuat elemen input untuk CSRF token
+                        var csrfTokenInput = document.createElement('input');
+                        csrfTokenInput.type = 'hidden';
+                        csrfTokenInput.name = '_token';
+
+                        // Ambil CSRF token dari meta tag
+                        var csrfToken = document.querySelector('meta[name="csrf-token"]');
+                        if (csrfToken) {
+                            csrfTokenInput.value = csrfToken.getAttribute('content');
+                        } else {
+                            // Fallback: coba ambil dari form yang ada di halaman
+                            var existingCsrfInput = document.querySelector('input[name="_token"]');
+                            if (existingCsrfInput) {
+                                csrfTokenInput.value = existingCsrfInput.value;
+                            } else {
+                                Swal.fire({
+                                    title: 'Error!',
+                                    text: 'CSRF token tidak ditemukan. Mohon refresh halaman.',
+                                    icon: 'error'
+                                });
+                                return;
+                            }
+                        }
+
+                        form.appendChild(csrfTokenInput);
+
+                        // Menambahkan form ke body dan mengirimkannya
+                        document.body.appendChild(form);
+                        form.submit(); // Kirimkan form
+                    }
+                });
+            });
         });
     </script>
     {{-- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'94bf8547c5d2d899',t:'MTc0OTI5MjcxNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><iframe height="1" width="1" style="position: absolute; top: 0px; left: 0px; border: none; visibility: hidden;"></iframe> --}}

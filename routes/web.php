@@ -41,6 +41,8 @@ Route::middleware(['auth', 'role:operator'])->group(function () {
     Route::post('/operator/laporan/store', [OperatorDashboardController::class, 'store'])->name('operator.laporan.store');
     Route::get('/operator/laporan/create', [OperatorDashboardController::class, 'create'])->name('operator.laporan.create');
     Route::get('/operator/laporan/{id}/edit', [OperatorDashboardController::class, 'editlaporan'])->name('operator.laporan.edit');
+    Route::put('/operator/laporan/{id}', [OperatorDashboardController::class, 'update'])->name('operator.laporan.update');
+    Route::delete('/operator/hapus/{id}', [OperatorDashboardController::class, 'destroy'])->name('operator.laporan.delete');
 
 });
 Route::get('/csrf-token', function () {
