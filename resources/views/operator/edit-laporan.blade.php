@@ -16,12 +16,8 @@
 
                 {{-- Form Body --}}
                 <div class="p-8">
-<<<<<<< HEAD
-                    <form action="{{ route('operator.laporan.update', $laporan->id) }}" method="POST" enctype="multipart/form-data" class="space-y-8">
-=======
                     <form action="{{ route('operator.laporan.update', $laporan->id) }}" method="POST"
                         enctype="multipart/form-data" class="space-y-8">
->>>>>>> dc3a96a07d13a86b14bd64e61b2718ea06d465ea
                         @csrf
                         @method('PUT')
                         <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
@@ -660,15 +656,9 @@
                 title: 'Berhasil!',
                 text: '{{ session('success') }}',
                 showConfirmButton: true,
-<<<<<<< HEAD
-                timer: 3000              
-            }).then((result) => {
-                if(result.isConfirmed) {
-=======
                 timer: 3000
             }).then((result) => {
                 if (result.isConfirmed) {
->>>>>>> dc3a96a07d13a86b14bd64e61b2718ea06d465ea
                     window.location.href = "{{ route('operator.dashboard') }}";
                 }
             });

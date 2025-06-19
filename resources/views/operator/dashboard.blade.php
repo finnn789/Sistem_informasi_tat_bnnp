@@ -74,40 +74,11 @@
             <div class="flex flex-col md:flex-row gap-4 mb-6">
                 <div class="flex-grow">
                     <div class="relative">
-<<<<<<< HEAD
-                        <button id="profile-menu-button" class="flex items-center focus:outline-none"
-                            fdprocessedid="fv89jm">
-                            <span
-                                class="mr-2 text-sm font-medium text-gray-700 hidden md:block">{{ $nama }}</span>
-                            <div class="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center text-white">
-                                <i class="fas fa-user"></i>
-                            </div>
-                        </button>
-
-                        <div id="profile-dropdown"
-                            class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden z-50">
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                <i class="fas fa-user mr-2"></i> Profil
-                            </a>
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                <i class="fas fa-cog mr-2"></i> Pengaturan
-                            </a>
-                            <div class="border-t border-gray-100"></div>
-                            <form action="{{ route('logout') }}" method="POST">
-                                @csrf
-                                <button type="submit"
-                                    class="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-gray-100">
-                                    <i class="fas fa-sign-out-alt mr-2"></i> Keluar
-                                </button>
-                            </form>
-
-=======
                         <input type="text" placeholder="Cari laporan..."
                             class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                             fdprocessedid="m59nn">
                         <div class="absolute left-3 top-2.5 text-gray-400">
                             <i class="fas fa-search"></i>
->>>>>>> dc3a96a07d13a86b14bd64e61b2718ea06d465ea
                         </div>
                     </div>
                 </div>
@@ -168,200 +139,10 @@
                                 <td class="py-3 px-4 whitespace-nowrap text-sm text-gray-700">
                                     {{ $laporan->created_at->format('d M Y') }}</td>
 
-<<<<<<< HEAD
-        <!-- Sidebar -->
-        {{-- <div id="sidebar" class="sidebar fixed left-0 top-0 pt-16 h-full w-64 bg-white shadow-lg z-10 transform -translate-x-full md:translate-x-0">
-    <div class="px-4 py-6">
-        <ul class="space-y-1">
-            <li>
-                <a href="{{ route('operator.dashboard') }}" class="sidebar-item @if (request()->routeIs('operator.dashboard')) sidebar-active @endif flex items-center px-4 py-3 rounded-lg">
-                    <i class="fas fa-tachometer-alt w-5 mr-3"></i>
-                    <span>Dashboard</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('operator.laporan.index') }}" class="sidebar-item @if (request()->routeIs('operator.laporan.index')) sidebar-active @endif flex items-center px-4 py-3 rounded-lg text-gray-700">
-                    <i class="fas fa-file-alt w-5 mr-3"></i>
-                    <span>Laporan TAT</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('verifikasi.index') }}" class="sidebar-item @if (request()->routeIs('verifikasi.index')) sidebar-active @endif flex items-center px-4 py-3 rounded-lg text-gray-700">
-                    <i class="fas fa-clipboard-check w-5 mr-3"></i>
-                    <span>Verifikasi</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('operator.statistik') }}" class="sidebar-item @if (request()->routeIs('operator.statistik')) sidebar-active @endif flex items-center px-4 py-3 rounded-lg text-gray-700">
-                    <i class="fas fa-chart-bar w-5 mr-3"></i>
-                    <span>Statistik</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('operator.pengaturan') }}" class="sidebar-item @if (request()->routeIs('operator.pengaturan')) sidebar-active @endif flex items-center px-4 py-3 rounded-lg text-gray-700">
-                    <i class="fas fa-cog w-5 mr-3"></i>
-                    <span>Pengaturan</span>
-                </a>
-            </li>
-        </ul>
-    </div>
-</div> --}}
-
-
-
-    </div>
-
-    <!-- Main Content -->
-    <div class="md:ml-64 pt-16 min-h-screen">
-        <div class="container mx-auto px-4 py-6">
-            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
-                    <div>
-                        <h1 class="text-2xl font-bold text-gray-800">Dashboard Operator </h1>
-                        <p class="text-gray-600">Manajemen Laporan Tindak Pidana Tertentu (TAT)</p>
-                    </div>
-                    <a href={{ route('operator.laporan.create') }}
-                        class="mt-4 md:mt-0 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg flex items-center transition-colors">
-                        <i class="fas fa-plus-circle mr-2"></i>
-                        Buat Laporan Baru
-                    </a>
-                </div>
-
-                <!-- Stats Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-                    <div class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg p-4 text-white shadow-md">
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <p class="text-sm opacity-80">Total Laporan</p>
-                                <h3 class="text-2xl font-bold">{{ $totalLaporan }}</h3>
-                            </div>
-                            <div class="bg-white bg-opacity-30 p-3 rounded-full">
-                                <i class="fas fa-file-alt"></i>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bg-gradient-to-r from-green-500 to-green-600 rounded-lg p-4 text-white shadow-md">
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <p class="text-sm opacity-80">Disetujui</p>
-                                <h3 class="text-2xl font-bold">{{ $totalDiterima }}</h3>
-                            </div>
-                            <div class="bg-white bg-opacity-30 p-3 rounded-full">
-                                <i class="fas fa-check-circle"></i>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-lg p-4 text-white shadow-md">
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <p class="text-sm opacity-80">Menunggu</p>
-                                <h3 class="text-2xl font-bold">{{ $totalProses }}</h3>
-                            </div>
-                            <div class="bg-white bg-opacity-30 p-3 rounded-full">
-                                <i class="fas fa-clock"></i>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bg-gradient-to-r from-red-500 to-red-600 rounded-lg p-4 text-white shadow-md">
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <p class="text-sm opacity-80">Ditolak</p>
-                                <h3 class="text-2xl font-bold">{{ $totalDitolak }}</h3>
-                            </div>
-                            <div class="bg-white bg-opacity-30 p-3 rounded-full">
-                                <i class="fas fa-times-circle"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Search and Filter -->
-                <div class="flex flex-col md:flex-row gap-4 mb-6">
-                    <div class="flex-grow">
-                        <div class="relative">
-                            <input type="text" placeholder="Cari laporan..."
-                                class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                fdprocessedid="m59nn">
-                            <div class="absolute left-3 top-2.5 text-gray-400">
-                                <i class="fas fa-search"></i>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="flex gap-2">
-                        <select
-                            class="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            fdprocessedid="y3kulu">
-                            <option value="">Semua Status</option>
-                            <option value="pending">Menunggu</option>
-                            <option value="approved">Disetujui</option>
-                            <option value="rejected">Ditolak</option>
-                            <option value="processing">Diproses</option>
-                        </select>
-
-                        <select
-                            class="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            fdprocessedid="jwdggn">
-                            <option value="">Semua Tanggal</option>
-                            <option value="today">Hari Ini</option>
-                            <option value="week">Minggu Ini</option>
-                            <option value="month">Bulan Ini</option>
-                            <option value="year">Tahun Ini</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Daftar Laporan -->
-                <div class="overflow-x-auto bg-white rounded-lg shadow">
-                    <table class="min-w-full table-hover">
-                        <thead>
-                            <tr class="bg-gray-50 border-b border-gray-200">
-                                <th
-                                    class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    No</th>
-                                <th
-                                    class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Surat Permohonan TAT</th>
-                                <th
-                                    class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Tanggal Pengajuan</th>
-                                <th
-                                    class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Status</th>
-                                <th
-                                    class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-200">
-
-                            @foreach ($laporanTAT as $laporan)
-                                <tr>
-                                    <!-- Menampilkan Nomor Urut -->
-                                    <td class="py-3 px-4 whitespace-nowrap text-sm text-gray-700">
-                                        {{ $loop->iteration }}</td>
-
-                                    <!-- Menampilkan Surat Permohonan TAT -->
-                                    <td class="py-3 px-4 whitespace-nowrap text-sm text-gray-700">
-                                        {{ $laporan->nomor_surat_permohonan_tat }}</td>
-
-                                    <!-- Menampilkan Tanggal Pengajuan -->
-                                    <td class="py-3 px-4 whitespace-nowrap text-sm text-gray-700">
-                                        {{ $laporan->created_at->format('d M Y') }}</td>
-
-                                    <!-- Menampilkan Status dengan Warna Dinamis menggunakan Tailwind CSS -->
-                                    <td class="py-3 px-4 whitespace-nowrap">
-                                        <span
-                                            class="
-=======
                                 <!-- Menampilkan Status dengan Warna Dinamis menggunakan Tailwind CSS -->
                                 <td class="py-3 px-4 whitespace-nowrap">
                                     <span
                                         class="
->>>>>>> dc3a96a07d13a86b14bd64e61b2718ea06d465ea
                 status-badge 
                 {{ $laporan->status == 'menunggu'
                     ? 'bg-yellow-100 text-yellow-800'
@@ -375,57 +156,6 @@
                                     </span>
                                 </td>
 
-<<<<<<< HEAD
-                                    <td class="py-3 px-4 whitespace-nowrap">
-                                        {{-- Tombol Aksi --}}
-                                        <div class="flex items-center space-x-2">
-                                            @if ($laporan->status === 'diterima')
-                                                <a href="#"
-                                                    class="group relative inline-flex items-center justify-center px-4 py-2 
-                  bg-white border border-green-300 text-green-700 text-sm font-medium 
-                  rounded-md hover:bg-green-50 hover:border-green-400 hover:text-green-800 
-                  transition-all duration-150 ease-in-out shadow-sm hover:shadow">
-                                                    <i class="fas fa-eye mr-1.5 text-xs"></i>
-                                                    Lihat
-                                                    <span
-                                                        class="absolute inset-x-0 -bottom-px h-px bg-gradient-to-r from-transparent 
-                         via-green-500 to-transparent opacity-0 group-hover:opacity-100 
-                         transition-opacity duration-150"></span>
-                                                </a>
-                                            @endif
-
-                                            @if ($laporan->status === 'ditolak' || $laporan->status === 'menunggu')
-                                                <a href="{{ route('operator.laporan.edit', $laporan->id) }}"
-                                                    class="group relative inline-flex items-center justify-center px-4 py-2 
-                  bg-white border border-blue-300 text-blue-700 text-sm font-medium 
-                  rounded-md hover:bg-blue-50 hover:border-blue-400 hover:text-blue-800 
-                  transition-all duration-150 ease-in-out shadow-sm hover:shadow">
-                                                    <i class="fas fa-edit mr-1.5 text-xs"></i>
-                                                    Edit
-                                                    <span
-                                                        class="absolute inset-x-0 -bottom-px h-px bg-gradient-to-r from-transparent 
-                         via-blue-500 to-transparent opacity-0 group-hover:opacity-100 
-                         transition-opacity duration-150"></span>
-                                                </a>
-
-                                                <button data-id="{{ $laporan->id }}"
-                                                    class="deleteButton group relative inline-flex items-center justify-center px-4 py-2 
-                       bg-white border border-red-300 text-red-700 text-sm font-medium 
-                       rounded-md hover:bg-red-50 hover:border-red-400 hover:text-red-800 
-                       transition-all duration-150 ease-in-out shadow-sm hover:shadow">
-                                                    <i class="fas fa-trash mr-1.5 text-xs"></i>
-                                                    Hapus
-                                                    <span
-                                                        class="absolute inset-x-0 -bottom-px h-px bg-gradient-to-r from-transparent 
-                         via-red-500 to-transparent opacity-0 group-hover:opacity-100 
-                         transition-opacity duration-150"></span>
-                                                </button>
-                                            @endif
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-=======
                                 <td class="py-3 px-4 whitespace-nowrap">
                                     {{-- Tombol Aksi --}}
                                     <div class="flex items-center space-x-2">
@@ -475,7 +205,6 @@
                                 </td>
                             </tr>
                         @endforeach
->>>>>>> dc3a96a07d13a86b14bd64e61b2718ea06d465ea
 
 
 
@@ -511,130 +240,6 @@
             </div>
         </div>
     </div>
-<<<<<<< HEAD
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        // Toggle sidebar on mobile
-        document.getElementById('sidebar-toggle').addEventListener('click', function() {
-            document.getElementById('sidebar').classList.toggle('open');
-        });
-
-        // Close sidebar when clicking outside on mobile
-        document.addEventListener('click', function(event) {
-            const sidebar = document.getElementById('sidebar');
-            const sidebarToggle = document.getElementById('sidebar-toggle');
-
-            if (window.innerWidth < 768 &&
-                !sidebar.contains(event.target) &&
-                !sidebarToggle.contains(event.target) &&
-                sidebar.classList.contains('open')) {
-                sidebar.classList.remove('open');
-            }
-        });
-
-        // Toggle profile dropdown
-        document.getElementById('profile-menu-button').addEventListener('click', function() {
-            document.getElementById('profile-dropdown').classList.toggle('hidden');
-        });
-
-        // Close profile dropdown when clicking outside
-        document.addEventListener('click', function(event) {
-            const dropdown = document.getElementById('profile-dropdown');
-            const button = document.getElementById('profile-menu-button');
-
-            if (!dropdown.contains(event.target) &&
-                !button.contains(event.target) &&
-                !dropdown.classList.contains('hidden')) {
-                dropdown.classList.add('hidden');
-            }
-        });
-    </script>
-    <script>
-        // Ketika tombol hapus diklik
-        document.querySelectorAll('.deleteButton').forEach(button => {
-            button.addEventListener('click', function() {
-                // Ambil ID dari tombol yang diklik
-                var id = this.getAttribute('data-id');
-
-                // Tampilkan konfirmasi SweetAlert
-                Swal.fire({
-                    title: 'Apakah Anda yakin?',
-                    text: "Data yang dihapus tidak dapat dikembalikan!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Ya, Hapus!',
-                    cancelButtonText: 'Batal'
-                }).then((result) => {
-                    // Jika pengguna mengklik 'Hapus'
-                    if (result.isConfirmed) {
-                        // Tampilkan loading
-                        Swal.fire({
-                            title: 'Menghapus...',
-                            text: 'Mohon tunggu sebentar',
-                            allowOutsideClick: false,
-                            allowEscapeKey: false,
-                            showConfirmButton: false,
-                            didOpen: () => {
-                                Swal.showLoading();
-                            }
-                        });
-
-                        // Membuat form untuk mengirimkan request DELETE dengan CSRF token
-                        var form = document.createElement('form');
-                        form.method = 'POST';
-                        form.action = `/operator/hapus/${id}`;
-                        form.style.display = 'none';
-
-                        // Membuat elemen input untuk method DELETE
-                        var methodInput = document.createElement('input');
-                        methodInput.type = 'hidden';
-                        methodInput.name = '_method';
-                        methodInput.value = 'DELETE';
-                        form.appendChild(methodInput);
-
-                        // Membuat elemen input untuk CSRF token
-                        var csrfTokenInput = document.createElement('input');
-                        csrfTokenInput.type = 'hidden';
-                        csrfTokenInput.name = '_token';
-
-                        // Ambil CSRF token dari meta tag
-                        var csrfToken = document.querySelector('meta[name="csrf-token"]');
-                        if (csrfToken) {
-                            csrfTokenInput.value = csrfToken.getAttribute('content');
-                        } else {
-                            // Fallback: coba ambil dari form yang ada di halaman
-                            var existingCsrfInput = document.querySelector('input[name="_token"]');
-                            if (existingCsrfInput) {
-                                csrfTokenInput.value = existingCsrfInput.value;
-                            } else {
-                                Swal.fire({
-                                    title: 'Error!',
-                                    text: 'CSRF token tidak ditemukan. Mohon refresh halaman.',
-                                    icon: 'error'
-                                });
-                                return;
-                            }
-                        }
-
-                        form.appendChild(csrfTokenInput);
-
-                        // Menambahkan form ke body dan mengirimkannya
-                        document.body.appendChild(form);
-                        form.submit(); // Kirimkan form
-                    }
-                });
-            });
-        });
-    </script>
-    {{-- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'94bf8547c5d2d899',t:'MTc0OTI5MjcxNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><iframe height="1" width="1" style="position: absolute; top: 0px; left: 0px; border: none; visibility: hidden;"></iframe> --}}
-
-    {{-- <span id="PING_IFRAME_FORM_DETECTION" style="display: none;"></span> --}}
-</body>
-
-</html>
-=======
 </div>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -718,4 +323,3 @@
     });
 </script>
 @endsection
->>>>>>> dc3a96a07d13a86b14bd64e61b2718ea06d465ea

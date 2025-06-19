@@ -617,8 +617,6 @@ class OperatorDashboardController extends Controller
                 ->with('error', 'Terjadi kesalahan saat menghapus laporan: ' . $e->getMessage());
         }
     }
-<<<<<<< HEAD
-=======
 
     public function preview($filename)
     {
@@ -652,5 +650,4 @@ class OperatorDashboardController extends Controller
         ]);
     }
 
->>>>>>> dc3a96a07d13a86b14bd64e61b2718ea06d465ea
 }
