@@ -351,7 +351,7 @@
 
     <!-- Loading Overlay -->
     <div id="loadingOverlay"
-        class="fixed inset-0 bg-bnn-primary/90 backdrop-blur-sm flex items-center justify-center z-50 hidden">
+        class="fixed inset-0 bg-bnn-primary/90 backdrop-blur-sm  items-center justify-center z-50 hidden">
         <div class="text-center text-white">
             <div class="w-16 h-16 border-4 border-white/30 border-t-white rounded-full animate-spin mx-auto mb-4"></div>
             <p class="text-lg font-semibold">Memverifikasi kredensial...</p>

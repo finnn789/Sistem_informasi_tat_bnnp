@@ -4,13 +4,13 @@
 
 @section('title', 'Dashboard Operator')
 @section('content')
-<div class="md:ml-64 pt-16 min-h-screen">
+<div class=" pt-16 min-h-screen">
     <div class="container mx-auto px-4 py-6">
         <div class="bg-white rounded-lg shadow-md p-6 mb-6">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
                 <div>
                     <h1 class="text-2xl font-bold text-gray-800">Dashboard Operator </h1>
-                    <p class="text-gray-600">Manajemen Laporan Tindak Pidana Tertentu (TAT)</p>
+                    <p class="text-gray-600">Manajemen Laporan Tim Assesment Terpadu</p>
                 </div>
                 <a href={{ route('operator.laporan.create') }}
                     class="mt-4 md:mt-0 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg flex items-center transition-colors">
