@@ -233,12 +233,12 @@
                                 <i class="fas fa-user text-gray-400"></i>
                             </div>
                         </div>
-                        @error('email')
+                        {{-- @error('email')
                         <p class="text-red-600 text-sm flex items-center mt-1">
                             <i class="fas fa-exclamation-circle mr-1"></i>
                             {{ $message }}
                         </p>
-                        @enderror
+                        @enderror --}}
                     </div>
 
                     <!-- Password Field -->
@@ -264,12 +264,12 @@
                                 <i class="fas fa-eye" id="toggleIcon"></i>
                             </button>
                         </div>
-                        @error('password')
+                        {{-- @error('password')
                         <p class="text-red-600 text-sm flex items-center mt-1">
                             <i class="fas fa-exclamation-circle mr-1"></i>
                             Password yang Anda masukkan salah
                         </p>
-                        @enderror
+                        @enderror --}}
                     </div>
 
                     <!-- Remember Me & Forgot Password -->
