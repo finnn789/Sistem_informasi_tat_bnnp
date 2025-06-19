@@ -21,7 +21,7 @@
                             <span class="text-sm font-medium text-gray-600">Status Laporan:</span>
                             @php
                                 $statusConfig = [
-                                    'Menunggu' => [
+                                    'menunggu' => [
                                         'bg-yellow-100',
                                         'text-yellow-800',
                                         'border-yellow-300',
@@ -30,7 +30,7 @@
                                     'diterima' => ['bg-green-100', 'text-green-800', 'border-green-300', 'Diterima'],
                                     'ditolak' => ['bg-red-100', 'text-red-800', 'border-red-300', 'Ditolak'],
                                 ];
-                                $config = $statusConfig[$laporan->status] ?? $statusConfig['pending'];
+                                $config = $statusConfig[$laporan->status] ?? $statusConfig['menunggu'];
                                 // dd($laporan->status);
                             @endphp
                             <span
