@@ -42,6 +42,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', 'role:operator'])->group(function () {
     Route::get('/operator/dashboard', [OperatorDashboardController::class, 'index'])->name('operator.dashboard');
+    Route::get('/operator/laporan/preview/{id}', [OperatorDashboardController::class, 'previewLaporan'])->name('operator.laporan.preview');
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
     Route::get('/files/preview/{filename}', [OperatorDashboardController::class, 'preview'])->name('files.preview');
     Route::post('/operator/laporan/store', [OperatorDashboardController::class, 'store'])->name('operator.laporan.store');

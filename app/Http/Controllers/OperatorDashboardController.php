@@ -650,4 +650,17 @@ class OperatorDashboardController extends Controller
         ]);
     }
 
+
+    public function previewLaporan($id)
+    {
+        // Ambil laporan berdasarkan ID
+        $laporan = LaporanTATModel::findOrFail($id);
+
+        // Ambil semua tersangka yang terkait dengan laporan ini
+        $tersangka = $laporan->tersangka;
+
+        // Kembalikan view untuk preview laporan
+        return view('operator.preview-laporan', compact('laporan', 'tersangka'));
+    }
+
 }

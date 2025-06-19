@@ -33,7 +33,7 @@ class LaporanTATSeeder extends Seeder
         $faker = Faker::create('id_ID');
 
         // Generate 10 laporan dengan data random tapi unique
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 20; $i++) {
             $laporan = LaporanTAT::create([
                 'user_id' => $user->id,
                 'surat_permohonan_tat' => $faker->unique()->bothify('SP-TAT-###-????') . '.pdf',
