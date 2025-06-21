@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Illuminate\Support\Facades\Response;
 use PHPUnit\Framework\Constraint\Operator;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\UserManagementController;
 
 Route::get('/', function () {
     return view('auth.login');
@@ -51,6 +52,7 @@ Route::middleware(['auth', 'role:operator'])->group(function () {
     Route::put('/operator/laporan/{id}', [OperatorDashboardController::class, 'update'])->name('operator.laporan.update');
     Route::delete('/operator/hapus/{id}', [OperatorDashboardController::class, 'destroy'])->name('operator.laporan.delete');
 
+
 });
 Route::get('/csrf-token', function () {
     return Response::json(['csrf_token' => csrf_token()]);
@@ -71,11 +73,20 @@ Route::middleware(['auth', 'role:admin_bnn'])->group(function () {
         Route::get('/admin/surat-masuk', [AdminController::class, 'suratMasuk'])->name('admin.suratmasuk');
         Route::post('/laporan/{id}/terima', [AdminController::class, 'terima'])->name('admin.terima');
         Route::post('/laporan/{id}/tolak', [AdminController::class, 'tolak'])->name('admin.tolak');
+        Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('admin.logout');
         Route::post('/admin/laporan/{id}/setujui', [AdminController::class, 'setujui'])->name('admin.laporan.setujui');
         Route::post('/admin/laporan/{id}/tolak', [AdminController::class, 'tolak'])->name('admin.laporan.tolak');
         Route::get('/admin/laporan/{id}/detail', [AdminController::class, 'show'])->name('admin.laporan.detail');
         Route::get('/admin/laporan/{id}/preview/{field}', [AdminController::class, 'preview'])->name('admin.laporan.preview');
         Route::get('admin/laporan/{id}/hasilpreview/{field}', [AdminController::class, 'previewDokumen'])->name('admin.laporan.preview');
+        Route::get('/users', [UserManagementController::class, 'index'])->name('admin.users.index');
+        Route::get('/users/create', [UserManagementController::class, 'create'])->name('admin.users.create');
+        Route::post('/users/store', [UserManagementController::class, 'store'])->name('admin.users.store');
+        Route::get('/users/{id}/edit', [UserManagementController::class, 'edit'])->name('admin.users.edit');
+        Route::get('/users/show/{id}', [UserManagementController::class, 'show'])->name('admin.users.show');
+        Route::post('/users/{userId}/reset-password', [UserManagementController::class, 'resetPassword'])->name('admin.users.update');
+        Route::delete('/users/{id}', [UserManagementController::class, 'destroy'])->name('admin.users.destroy');
+        
     });
 });
 
