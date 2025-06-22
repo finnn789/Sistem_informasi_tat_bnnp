@@ -81,7 +81,6 @@ MySQL >= 8.0
    DB_USERNAME=your_username
    DB_PASSWORD=your_password
    ```
-
 5. **Run migrations**
    ```bash
    php artisan migrate --seed
@@ -99,10 +98,18 @@ MySQL >= 8.0
    ```
 
 8. **Access application**
+    
+    *Admin (Tim Assesment)*
    ```
    URL: http://localhost:8000
    Email: admin1@gmail.com
-   Password: password
+   Password: 1234678
+   ```
+    *Users (Tim Penyidik)*
+   ```
+   URL: http://localhost:8000
+   Email: admin1@gmail.com
+   Password: 1234678
    ```
 
 ---
@@ -119,7 +126,7 @@ APP_ENV=production
 APP_URL=https://your-domain.com
 
 # Database
-DB_CONNECTION=mysql
+DB_CONNECTION=sqlite
 DB_HOST=127.0.0.1
 DB_PORT=3306
 DB_DATABASE=sistem_tat
@@ -191,27 +198,7 @@ POST   /logout             # User logout
 GET    /dashboard          # Dashboard access
 ```
 
-### Laporan Management
-```http
-GET    /operator/laporan                    # List all reports
-GET    /operator/laporan/create             # Create form
-POST   /operator/laporan                    # Store report
-GET    /operator/laporan/{id}               # View report
-GET    /operator/laporan/{id}/edit          # Edit form
-PUT    /operator/laporan/{id}               # Update report
-DELETE /operator/laporan/{id}               # Delete report
-DELETE /operator/laporan/bulk               # Bulk delete
-DELETE /operator/laporan/{id}/file          # Delete specific file
-```
 
-### File Management
-```http
-POST   /operator/laporan/{id}/upload        # Upload files
-GET    /storage/laporan-tat/{file}          # Download files
-DELETE /operator/laporan/{id}/file/{type}   # Delete file
-```
-
----
 
 ## 🔒 Security Features
 
@@ -408,10 +395,9 @@ See the full list of [contributors](https://github.com/your-username/sistem-tat/
 
 ---
 
-<div align="center">
+
 
 **⭐ Star this repository if it helped you!**
 
 Made with ❤️ for Indonesian Government Technology Initiative
 
-</div>
