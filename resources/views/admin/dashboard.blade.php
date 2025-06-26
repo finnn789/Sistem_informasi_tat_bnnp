@@ -18,7 +18,7 @@
 </style>
 
 <div class="p-6 bg-white/20 shadow-lg rounded-lg backdrop-blur">
-    <h1 class="text-2xl font-bold mb-4">Dashboard Admin</h1>
+    <h1 class="text-2xl font-bold mb-4">Dashboard Tim Assesment</h1>
     <div class="grid grid-cols-4 gap-4 mb-6">
         <div class="bg-blue-500 text-white p-4 rounded shadow">
             <p class="text-sm">Total Laporan</p>

@@ -91,7 +91,7 @@
                         <div class="bg-blue-600 text-white p-2 rounded-lg mr-2">
                             <i class="fas fa-shield-alt"></i>
                         </div>
-                        <span class="font-semibold text-gray-800 text-lg">POLRI DIGITAL</span>
+                        <span class="font-semibold text-gray-800 text-lg">TIM PENYIDIK</span>
                     </div>
                 </div>
 

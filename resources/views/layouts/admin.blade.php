@@ -19,7 +19,7 @@
             <!-- Logo BNN -->
             <div class="flex flex-col items-center mb-4">
                 <img src="{{ asset('images/logo2.png') }}" alt="Logo BNN" class="w-28 h-28 object-contain mb-2">
-                <h1 class="text-xl font-bold">Admin BNN</h1>
+                <h1 class="text-xl font-bold">Tim Assesment</h1>
             </div>
 
             <ul class="space-y-3 mt-6">
@@ -32,7 +32,7 @@
                 <li>
                     <a href="{{ route('admin.suratmasuk') }}"
                         class="block px-4 py-2 rounded hover:bg-gray-200 {{ request()->routeIs('admin.suratmasuk') ? 'bg-gray-200 font-semibold' : '' }}">
-                        Surat Masuk
+                        Daftar Laporan Masuk
                     </a>
                 </li>
                 <li>

@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
-    <h2 class="text-2xl font-bold mb-6">Surat Masuk</h2>
+    <h2 class="text-2xl font-bold mb-6">Daftar Laporan Tim Penyidik</h2>
 
     <div class="overflow-x-auto bg-white shadow-md rounded p-4">
         <table class="min-w-full table-auto">
